@@ -2,31 +2,156 @@ DATA LAKEHOUSE PLANNING & IMPLEMENTATION
 
 Plan and implement data lakehouse architectures with medallion structure, dimensional modeling, and production-grade data engineering practices.
 
-**CRITICAL**: This workflow ensures cost-effective, high-quality, observable data pipelines on Databricks platform.
-
-**PHILOSOPHY**:
-- **Medallion architecture first** - Bronze (raw), Silver (cleansed), Gold (business-level aggregates)
-- **Dimensional modeling** - Star schema with facts and dimensions in Gold layer
-- **Cost control** - Optimize compute, storage, and data transfer costs
-- **Data quality by default** - Validation, monitoring, and alerting at every layer
-- **Observability built-in** - Comprehensive logging, lineage, and metrics
-- **CI/CD from day one** - Automated testing and deployment pipelines
+**CRITICAL**: This workflow uses query-first/confirm flow - NO assumptions made without engineer approval.
 
 ---
 
-## WHEN TO USE THIS WORKFLOW
+## ARCHITECTURE DECISION (Query First - Before Requirements Gathering)
 
-Use this workflow when:
-- Building a new data lakehouse or data warehouse
-- Ingesting new data sources into existing lakehouse
-- Creating new dimensional models (facts and dimensions)
-- Migrating from legacy data warehouse to lakehouse
-- Implementing analytics or reporting infrastructure
-- Setting up data pipelines for ML/AI workloads
+### DECISION REQUIRED: Lakehouse Architecture Approach
+
+**Context**: Before gathering detailed requirements, confirm the high-level approach.
+
+**Question 1**: "What is your preferred data lakehouse approach?"
+
+**Option A - Medallion Architecture (Bronze/Silver/Gold)** (RECOMMENDED)
+- **Why recommended**: Industry best practice, separates raw/clean/business data, proven at scale
+- **Best for**: Most data lakehouse projects, especially with multiple data sources
+- **Pros**:
+  - Clear data quality progression (raw → clean → business)
+  - Easy troubleshooting (can trace data lineage)
+  - Supports both batch and streaming
+  - Reusable Silver layer for multiple Gold models
+- **Cons**:
+  - Requires multiple layers (more complexity)
+  - Slightly higher storage cost (3 copies of data)
+- **Layers**:
+  - Bronze: Raw, immutable data (exactly as received)
+  - Silver: Cleansed, validated, deduplicated
+  - Gold: Business-level aggregates, dimensional model
+- **Reference**: Databricks medallion architecture - https://www.databricks.com/glossary/medallion-architecture
+- **Implementation effort**: Medium (standard pattern, well-documented)
+
+**Option B - Two-Tier Architecture (Raw + Curated)**
+- **Best for**: Simple use cases, single data source, tight budget
+- **Pros**: Simpler, less storage
+- **Cons**: Less flexibility, harder to maintain as complexity grows
+- **Implementation effort**: Low
+
+**Option C - Custom Architecture**
+- Describe your preferred approach
+
+**Question**: "Which architecture approach do you prefer? (A/B/C)"
+
+🛑 WAIT FOR CONFIRMATION - Do not proceed until explicit choice
+
+---
+
+### DECISION REQUIRED: Data Modeling Approach (Gold Layer)
+
+**Context**: How should business-level data be modeled?
+
+**Question 2**: "What data modeling approach do you prefer for analytics/reporting?"
+
+**Option A - Dimensional Modeling (Star Schema)** (RECOMMENDED for BI/reporting)
+- **Why recommended**: Optimized for analytics queries, industry standard for BI, easy for analysts to understand
+- **Best for**: Business intelligence, dashboards, SQL-based reporting
+- **Pros**:
+  - Excellent query performance (pre-joined, optimized)
+  - Easy for BI tools (Power BI, Tableau) to consume
+  - Supports complex analytics with simple queries
+  - Industry-standard pattern (well-understood by analysts)
+- **Cons**:
+  - Requires upfront design (identify facts and dimensions)
+  - Less flexible for ad-hoc exploration
+  - More storage (denormalized)
+- **Components**:
+  - Fact tables: Measures (revenue, quantity, etc.)
+  - Dimension tables: Attributes (customer, product, date, etc.)
+  - Star schema: Facts surrounded by dimensions
+- **Reference**: Kimball dimensional modeling - https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/
+- **Implementation effort**: Medium (requires dimensional model design)
+
+**Option B - Wide Tables (Denormalized)**
+- **Best for**: Simple analytics, fewer joins needed
+- **Pros**: Very fast queries (everything in one table), simple
+- **Cons**: High storage cost, difficult to maintain, redundant data
+- **Implementation effort**: Low
+
+**Option C - Normalized (3NF) + Views**
+- **Best for**: Data science, flexible exploration, OLTP-style queries
+- **Pros**: Low storage, flexible, no data redundancy
+- **Cons**: Slower queries (many joins), complex for analysts
+- **Implementation effort**: Medium
+
+**Option D - Data Vault**
+- **Best for**: Enterprise data warehouses, audit trails, historical tracking
+- **Pros**: Flexible, auditability, handles source changes well
+- **Cons**: Very complex, requires expertise, slower queries
+- **Implementation effort**: High
+
+**Question**: "Which data modeling approach do you prefer? (A/B/C/D)"
+
+🛑 WAIT FOR CONFIRMATION
+
+---
+
+### DECISION REQUIRED: Platform and Tooling
+
+**Question 3**: "What platform will you use for the data lakehouse?"
+
+**Option A - Databricks** (RECOMMENDED for full lakehouse features)
+- **Why recommended**: Built for lakehouse architecture, excellent Delta Lake support, Unity Catalog
+- **Best for**: Modern data lakehouse, ML/AI workloads, streaming
+- **Pros**:
+  - Native Delta Lake support (ACID transactions, time travel)
+  - Unity Catalog (governance, lineage)
+  - MLflow integration
+  - Photon engine (fast SQL queries)
+  - AutoLoader for ingestion
+- **Cons**:
+  - Cost (compute + DBUs)
+  - Vendor lock-in (Databricks-specific features)
+- **Cloud support**: Azure, AWS, GCP
+- **Reference**: https://www.databricks.com/
+- **Implementation effort**: Medium (requires Databricks familiarity)
+
+**Option B - Apache Spark + Delta Lake (Open Source)**
+- **Best for**: Budget-conscious, avoid vendor lock-in
+- **Pros**: Free (compute cost only), full control, open source
+- **Cons**: More setup/maintenance, no managed services (Unity Catalog, AutoLoader)
+- **Implementation effort**: High (more DIY)
+
+**Option C - Snowflake**
+- **Best for**: Traditional data warehousing, SQL-heavy workloads
+- **Pros**: Excellent for SQL analytics, easy to use, no infrastructure management
+- **Cons**: Less suitable for ML/AI, limited streaming, higher cost for storage
+- **Implementation effort**: Low (managed service)
+
+**Option D - AWS Glue + Athena + S3**
+- **Best for**: AWS-native, serverless preference
+- **Pros**: Serverless, pay-per-query, tight AWS integration
+- **Cons**: Limited features vs Databricks, slower for complex workloads
+- **Implementation effort**: Medium
+
+**Question**: "Which platform do you prefer? (A/B/C/D)"
+
+🛑 WAIT FOR CONFIRMATION
+
+**Record decisions made so far**:
+- Architecture approach: [Confirmed choice]
+- Data modeling approach: [Confirmed choice]
+- Platform: [Confirmed choice]
+
+Document these foundational decisions before proceeding to requirements gathering.
 
 ---
 
 ## PHASE 1: REQUIREMENTS GATHERING
+
+**NOTE**: Requirements gathering uses the architecture decisions confirmed above.
+Default templates below assume Medallion + Dimensional Modeling + Databricks (most common).
+If different choices were made, templates will be adapted.
 
 ### Step 1A: Data Source Discovery
 
@@ -170,13 +295,49 @@ Capture use cases:
   - Proceed to greenfield setup
   - Recommend cloud provider based on existing infrastructure
 
+### DECISION REQUIRED: Storage Location
+
 **Question 6**: "Where should data be stored?"
 
-- **Azure**: Azure Data Lake Storage Gen2 (ADLS Gen2) - RECOMMENDED
-- **AWS**: S3
-- **GCP**: Google Cloud Storage
+**Context**: Cloud storage choice affects cost, performance, and integration with chosen platform.
 
-**Storage Structure**:
+**Option A - Azure Data Lake Storage Gen2 (ADLS Gen2)** (RECOMMENDED if using Azure/Databricks on Azure)
+- **Why recommended**: Best integration with Databricks on Azure, hierarchical namespace, cost-effective
+- **Best for**: Azure ecosystem, Databricks on Azure
+- **Pros**:
+  - Hierarchical namespace (file system semantics)
+  - Low cost ($0.018/GB/month for hot tier)
+  - Tight integration with Azure services
+  - RBAC and ACLs for security
+- **Cons**:
+  - Azure-specific (not portable to other clouds)
+  - Requires Azure subscription
+- **Reference**: https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction
+
+**Option B - AWS S3**
+- **Best for**: AWS ecosystem, Databricks on AWS, multi-cloud portability
+- **Pros**:
+  - Industry standard, widely supported
+  - S3 versioning, lifecycle policies
+  - Cost-effective ($0.023/GB/month for S3 Standard)
+- **Cons**:
+  - No hierarchical namespace (object storage only)
+  - S3 consistency model (eventual consistency for some operations)
+- **Reference**: https://aws.amazon.com/s3/
+
+**Option C - Google Cloud Storage**
+- **Best for**: GCP ecosystem, Databricks on GCP
+- **Pros**: Good integration with GCP services, competitive pricing
+- **Cons**: Smaller ecosystem than Azure/AWS
+- **Reference**: https://cloud.google.com/storage
+
+**Question**: "Which storage platform? (A/B/C)"
+
+🛑 WAIT FOR CONFIRMATION
+
+**Storage Structure** (RECOMMENDED - based on confirmed architecture choice):
+
+If Medallion Architecture chosen:
 ```
 <storage-account>/
 ├── bronze/               # Raw ingested data (immutable)
@@ -196,6 +357,10 @@ Capture use cases:
 ├── checkpoints/          # Streaming checkpoints
 ├── staging/              # Temporary staging area
 ```
+
+**Question**: "Accept recommended storage structure or customize?"
+
+🛑 WAIT FOR CONFIRMATION (if customization needed)
 
 ---
 

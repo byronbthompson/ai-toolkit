@@ -50,23 +50,46 @@ Ask user TWO questions upfront to determine workflow depth:
 
 **Production Reference Check**:
 - Ask: "Are there similar resources already running in production that I should reference?"
-  - If YES: Ask for resource names/IDs or ask user to describe them
-  - Fetch production resource details to understand patterns:
-    ```bash
-    # Azure: Get resource details
-    az resource show --ids <resource-id> --output json
+  - Options:
+    - Yes, reference existing production resources
+    - No, design from scratch using best practices
+    - Unsure, help me determine
 
-    # AWS: Describe resource
-    aws <service> describe-<resource> --<resource-name> <name>
+🛑 WAIT FOR ANSWER
 
-    # Get resource tags/labels for naming patterns
-    ```
-  - Use production patterns for: naming conventions, tags, sizing, configuration
-  - Document in plan: "Based on production resource: <name>"
-  - If NO: Proceed with best practices
+**If YES**:
+- Ask for resource names/IDs or describe what to look for
+- Automatically fetch production resource details:
+  ```bash
+  # Azure: Get resource details
+  az resource show --ids <resource-id> --output json
+
+  # AWS: Describe resource
+  aws <service> describe-<resource> --<resource-name> <name>
+
+  # Get resource tags/labels for naming patterns
+  ```
+
+**Present findings**:
+- Naming convention: [pattern found]
+- Tags/Labels: [tags found]
+- Sizing/SKU: [size found]
+- Key configurations: [configs found]
+
+**Question**: "Should I match these production patterns or customize?"
+- Match production patterns (RECOMMENDED for consistency)
+- Customize (explain what to change and why)
+
+🛑 WAIT FOR CONFIRMATION
+
+Document choice in plan with reasoning.
+
+**If NO**: Proceed with industry best practices for cloud provider and resource type.
+
+---
 
 **IaC Discovery**:
-- **First**: Automatically search for existing IaC files:
+- **Automatically search** for existing IaC files:
   ```bash
   # Search for BICEP files
   find . -name "*.bicep" -o -name "*.bicepparam"
@@ -83,13 +106,65 @@ Ask user TWO questions upfront to determine workflow depth:
   # Search for Pulumi files
   find . -name "Pulumi.yaml" -o -name "Pulumi.*.yaml"
   ```
-- **If IaC files found**:
-  - Report: "Found existing <tool> files at: <paths>"
-  - Ask: "Should I use the existing <tool> setup, or switch to a different tool?"
-  - **PREFER**: Using existing tool for consistency
-- **If no IaC files found**:
-  - Ask: "What IaC tool? (terraform/bicep/cloudformation/pulumi/manual)"
-  - If manual: Recommend IaC tool based on cloud provider
+
+**If IaC files found**:
+- Report: "Found existing [tool] files at: [paths]"
+
+**DECISION REQUIRED: IaC Tool Selection**
+
+**Question**: "I found existing [tool] setup. How would you like to proceed?"
+
+**Option A - Use existing [tool]** (RECOMMENDED for consistency)
+- **Why recommended**: Maintains consistency with existing infrastructure, team already familiar
+- **Pros**: No learning curve, existing state management, consistent tooling
+- **Cons**: Locked into current tool choice
+- **Effort**: Low (use existing setup)
+
+**Option B - Switch to different tool**
+- **Why switch**: [User must explain constraints/reasons]
+- **Cons**: Migration effort, state conversion, team learning curve
+- **Effort**: High (migration + learning)
+
+**Question**: "Continue with existing [tool] or switch? (A/B, if B explain why)"
+
+🛑 WAIT FOR CONFIRMATION
+
+**If no IaC files found**:
+
+**DECISION REQUIRED: IaC Tool Selection**
+
+**Question**: "No existing IaC found. Which tool do you want to use?"
+
+**Option A - Terraform** (RECOMMENDED for multi-cloud)
+- **Why recommended**: Industry standard, supports all cloud providers, large community
+- **Best for**: Multi-cloud, standardization across teams
+- **Pros**: Provider-agnostic, mature, extensive modules
+- **Cons**: State management complexity, HCL syntax learning curve
+- **Reference**: https://www.terraform.io/
+
+**Option B - Bicep** (RECOMMENDED for Azure-only)
+- **Best for**: Azure-native projects, TypeScript/JSON familiarity
+- **Pros**: Clean syntax, native Azure support, no state file
+- **Cons**: Azure-only, smaller community than Terraform
+- **Reference**: https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/
+
+**Option C - CloudFormation** (AWS-only)
+- **Best for**: AWS-native projects
+- **Pros**: Native AWS integration, no state file
+- **Cons**: AWS-only, YAML verbosity, limited community modules
+
+**Option D - Pulumi**
+- **Best for**: Teams preferring programming languages (Python, TypeScript, Go)
+- **Pros**: Real programming languages, testing capabilities
+- **Cons**: Newer tool, smaller community
+
+**Option E - Manual (NOT RECOMMENDED)**
+- **Why not recommended**: No version control, hard to replicate, error-prone
+- **Only use if**: One-off change, will convert to IaC later
+
+**Question**: "Which IaC tool? (A/B/C/D/E)"
+
+🛑 WAIT FOR CONFIRMATION
 
 ### Step 2: Quick Plan
 

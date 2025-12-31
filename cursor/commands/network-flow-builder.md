@@ -60,7 +60,40 @@ Ask user ONE question at a time:
 - If YES: Proceed to automated discovery
 - If NO: Ask user to provide network diagrams, configuration exports, or specific command outputs
 
+🛑 WAIT FOR ANSWER
+
+**If YES to access**:
+
+### DECISION REQUIRED: Discovery Depth
+
+**Question 4**: "How comprehensive should the network discovery be?"
+
+**Option A - Targeted Discovery** (RECOMMENDED for specific issues)
+- **Why recommended**: Faster, focused on relevant components, less command output to parse
+- **Best for**: Troubleshooting specific connectivity issue, documenting known flow
+- **Scope**: Only query components related to specified aspect (from Question 1)
+- **Time**: 5-15 minutes
+- **Commands**: Minimal set (10-20 commands)
+
+**Option B - Full Network Scan** (for complete documentation)
+- **Best for**: Initial setup, comprehensive audit, security review
+- **Scope**: Query all network components (VNets, subnets, NSGs, routes, peerings, etc.)
+- **Time**: 15-45 minutes
+- **Commands**: Complete set (50-100+ commands)
+- **Output**: May be very large
+
+**Option C - Custom Scope**
+- Specify exactly what to discover: [user describes]
+
+**Question**: "Which discovery depth? (A/B/C)"
+
+🛑 WAIT FOR CONFIRMATION
+
+---
+
 ### Step 2: Automated Network Discovery
+
+**NOTE**: Commands below are for FULL discovery (Option B). If Option A (Targeted) chosen, only run subset relevant to Question 1 scope.
 
 Based on cloud provider, run discovery commands:
 

@@ -72,7 +72,71 @@ IMPACT ANALYSIS:
 - Business impact: [Revenue loss? SLA breach? Regulatory compliance issue?]
 - Workaround available: [Yes/No - if yes, describe temporary workaround]
 
-PHASE 2: SIGNAL FLOW ANALYSIS (Trace from symptom to root cause)
+---
+
+## DECISION REQUIRED: Bug Fix Approach (Query First)
+
+**Context**: Before diving into analysis, confirm the approach based on severity and urgency.
+
+**Question**: "What is your preferred approach for this bug?"
+
+**Option A - Root Cause Analysis** (RECOMMENDED for most bugs)
+- **Why recommended**: Fixes the underlying issue, prevents recurrence, proper engineering
+- **Best for**: Medium/Low severity bugs, recurring issues, time available for proper fix
+- **Approach**: Trace signal flow from symptom to root cause (detailed layers below)
+- **Pros**:
+  - Fixes the real problem
+  - Prevents future similar bugs
+  - Improves code quality
+  - Better understanding of the system
+- **Cons**:
+  - Takes more time (thorough investigation)
+  - May require refactoring
+  - Might uncover additional issues
+- **Time**: 1-4 hours (depending on complexity)
+
+**Option B - Quick Symptom Fix** (for urgent hotfixes)
+- **Best for**: Critical/High severity production bugs, immediate mitigation needed
+- **Approach**: Fix the symptom where it manifests, defer root cause analysis
+- **Pros**:
+  - Fast resolution (minutes to 1 hour)
+  - Stops immediate user pain
+  - Reduces business impact quickly
+- **Cons**:
+  - Doesn't fix underlying issue (may recur)
+  - Technical debt created
+  - Band-aid solution
+- **Requirement**: MUST create follow-up ticket for root cause fix
+- **Time**: 15-60 minutes
+
+**Option C - Workaround Only** (for low-priority bugs)
+- **Best for**: Low severity, edge cases, deprecated features, planned replacement
+- **Approach**: Document workaround, no code changes
+- **Pros**: Zero development time
+- **Cons**: Users must work around issue, bug remains in codebase
+- **Time**: 5-15 minutes (documentation only)
+
+**Question**: "Which approach? (A/B/C)"
+
+🛑 WAIT FOR CONFIRMATION
+
+**If Option B chosen** (Quick Symptom Fix):
+- Ask: "Where do you want to apply the fix?" [User facing layer, API layer, data layer]
+- Document: "Quick symptom fix - Root cause analysis deferred to [ticket-id]"
+- Create follow-up ticket for proper root cause analysis
+
+**If Option C chosen** (Workaround):
+- Document workaround clearly
+- Mark bug as "Won't Fix" or "Workaround Available"
+- Close or deprioritize
+
+**If Option A chosen** (Root Cause Analysis) - Continue below:
+
+---
+
+## PHASE 2: SIGNAL FLOW ANALYSIS (Trace from symptom to root cause)
+
+**NOTE**: This detailed signal flow analysis is for ROOT CAUSE ANALYSIS approach.
 
 SIGNAL FLOW: Trace the bug from where user observes it DOWN through the stack to find root cause.
 
