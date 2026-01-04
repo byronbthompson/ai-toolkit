@@ -6,42 +6,46 @@ Custom slash commands and workflows for Cursor IDE.
 
 This directory contains custom slash commands (markdown files) that extend Cursor's capabilities with specialized workflows.
 
-### Full Application Development Flow
-- `full-app-00-start-here.md` - Entry point for full application development
-- `full-app-01-prd.md` - Product requirements document generation
-- `full-app-02-architecture.md` - Architecture planning
-- `full-app-03-data-model.md` - Data model design
-- `full-app-04-api-contract.md` - API contract definition
-- `full-app-05-ui-ux.md` - UI/UX design
-- `full-app-06-design-system.md` - Design system creation
-- `full-app-07-security-nfr.md` - Security and non-functional requirements
-- `full-app-08-testing-release.md` - Testing and release planning
-- `full-app-09-decisions.md` - Decision logging
-- `full-app-10-build-map.md` - Build roadmap
-- `full-app-10a-plan-approval-gate.md` - Plan approval checkpoint
-- `full-app-11-implement-milestone-n.md` - Milestone implementation
-- `full-app-11a-milestone-demo.md` - Milestone demo preparation
-- `full-app-completion-summary.md` - Project completion summary
-- `full-app-flow-selection.md` - Flow selection helper
-- `full-app-README-generator.md` - README generation
+### Entry Point
+- `00-WORKFLOW-SELECTOR.md` - **START HERE** - Decision tree to choose the right workflow for your task
 
-### Development Workflows
-- `bug-workflow-builder.md` - Bug tracking and resolution workflow
-- `devops-change-builder.md` - DevOps change management
-- `feature-doc-builder.md` - Feature documentation
-- `story-doc-builder.md` - User story documentation
-- `refactor-gate.md` - Refactoring approval gate
-- `verify-only.md` - Verification-only mode
+### Full Application Development Flow (TDD - Technical Design Documents)
+- `full-app-00-start-here-tdd.md` - Entry point for full application development
+- `full-app-01-prd-tdd.md` - Product requirements document generation
+- `full-app-02-architecture-tdd.md` - Architecture planning
+- `full-app-03-data-model-tdd.md` - Data model design
+- `full-app-04-api-contract-tdd.md` - API contract definition
+- `full-app-05-ui-ux-tdd.md` - UI/UX design
+- `full-app-06-design-system-tdd.md` - Design system creation
+- `full-app-07-security-nfr-tdd.md` - Security and non-functional requirements
+- `full-app-08-testing-release-tdd.md` - Testing and release planning
+- `full-app-09-decisions-tdd.md` - Decision logging
+- `full-app-10-build-map-tdd.md` - Build roadmap
+- `full-app-10a-plan-approval-gate-tdd.md` - Plan approval checkpoint
+- `full-app-11-implement-milestone-n.md` - Milestone implementation (execution)
+- `full-app-11a-milestone-demo-tdd.md` - Milestone demo preparation
+- `full-app-12-generate-tickets-tdd.md` - Generate tickets from specs
+- `full-app-completion-summary-tdd.md` - Project completion summary
+- `full-app-README-generator-tdd.md` - README generation
 
-### Discovery & Analysis
-- `brownfield-context-discovery.md` - Understanding existing codebases
-- `ui-pattern-discovery.md` - UI pattern analysis
-- `network-flow-builder.md` - Network architecture planning
+### Development Workflows (TDD)
+- `brownfield-context-discovery-tdd.md` - Understanding existing codebases
+- `feature-doc-builder-tdd.md` - Feature documentation
+- `bug-workflow-builder-tdd.md` - Bug tracking and resolution workflow
+- `story-doc-builder-tdd.md` - User story documentation
+
+### Infrastructure & Operations (TDD - Ad-hoc)
+- `deployment-tdd.md` - Deployment infrastructure design
+- `monitoring-tdd.md` - Monitoring strategy design
+
+### Learning & Knowledge Management (TDD)
+- `learnings-capture-tdd.md` - Capture learnings from development
+
+### Specialized Workflows (in specialized/ folder)
 - `data-lakehouse-builder.md` - Data lakehouse architecture
-
-### Learning & Knowledge Management
-- `learnings-capture.md` - Capture learnings from development
-- `learnings-review.md` - Review and consolidate learnings
+- `network-flow-builder.md` - Network architecture planning
+- `devops-change-builder.md` - DevOps change management
+- `ui-pattern-discovery.md` - UI pattern analysis
 
 ## Installation
 
@@ -67,7 +71,12 @@ The `mcp.json` file contains Model Context Protocol server configurations. Revie
 ## Usage
 
 Once installed, use these commands in Cursor with the `/` prefix:
-- `/full-app-00-start-here` to begin a new application
-- `/bug-workflow-builder` to start bug resolution
-- `/learnings-capture` to document learnings
+- `/00-WORKFLOW-SELECTOR` to choose the right workflow (START HERE)
+- `/full-app-00-start-here-tdd` to begin a new application
+- `/bug-workflow-builder-tdd` to start bug resolution
+- `/learnings-capture-tdd` to document learnings
+- `/deployment-tdd` to design deployment infrastructure
+- `/monitoring-tdd` to design monitoring strategy
 - etc.
+
+**Note**: Most workflows create Technical Design Documents (TDD) for planning. The only execution workflow is `full-app-11-implement-milestone-n.md`.
