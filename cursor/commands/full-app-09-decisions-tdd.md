@@ -1,4 +1,6 @@
-Add a new entry to /specs/09_DECISIONS.md:
+Read ${SPEC_PATH} from 00_START_HERE.md (look for "SPEC_PATH:" at the top).
+
+Add a new entry to ${SPEC_PATH}09_DECISIONS.md:
 
 - Decision title
 - Context

@@ -71,7 +71,7 @@ project-root/
   - Quick start guide
   - Installation instructions
   - Basic usage examples
-  - See: Use full-app-README-generator.md to create
+  - See: Use full-app-README-generator-tdd.md to create
 - [ ] **API Documentation**: [Status: Auto-generated / Needs creation / N/A]
   - Endpoint reference
   - Authentication guide
@@ -227,7 +227,7 @@ project-root/
 ### Immediate Next Steps (Before Deployment)
 
 **Documentation to create**:
-- [ ] Generate README.md (use full-app-README-generator.md)
+- [ ] Generate README.md (use full-app-README-generator-tdd.md)
   - Estimated effort: [30 minutes]
   - Required before: [User handoff / Public release]
 - [ ] Create user guide (if user-facing application)
@@ -426,6 +426,90 @@ project-root/
 
 ---
 
+## Continuous Improvement Actions
+
+**IMPORTANT**: Learnings are only valuable if acted upon. Use this section to drive workflow improvements.
+
+### When to Review Learnings
+
+**1. Post-Project Review** (mandatory - complete this section now):
+   - Review all learnings from /specs/LEARNINGS.md
+   - Identify patterns and systemic issues
+   - Create action items for workflow improvements (see below)
+
+**2. Quarterly Review** (recommended):
+   - Review learnings from all projects in past 3 months
+   - Identify recurring themes across projects
+   - Update command files based on learnings
+
+**3. Before Similar Projects** (recommended):
+   - Review learnings from similar past projects
+   - Apply lessons learned to planning
+   - Avoid repeating past mistakes
+
+### Action Items from This Project
+
+Based on learnings from this project, create concrete improvements:
+
+**Command File Updates**:
+- [ ] Update [command-file.md]: [what to change and why]
+  - Example: "Update bug-workflow-builder.md: Add production data analysis section (gap identified in 3 bug fixes)"
+
+**Workflow Improvements**:
+- [ ] Add new step: [what and where]
+  - Example: "Add database schema review checkpoint after 03_DATA_MODEL.md (caught issues late 2 times)"
+
+**Template Additions**:
+- [ ] Create template: [what template]
+  - Example: "Create API endpoint template (repeated similar endpoints 5 times)"
+
+**Quality Gate Adjustments**:
+- [ ] Modify quality gate: [what change]
+  - Example: "Increase coverage threshold to 85% (current 80% too low, gaps found)"
+
+### Pattern Analysis
+
+**Technical Patterns** (look for recurring themes):
+- Same type of bugs occurring multiple times?
+  - Example: "3 division-by-zero bugs → need validation framework"
+- Same technology causing issues repeatedly?
+  - Example: "Redis connection issues in 3 milestones → need better config"
+- Same architecture decision paying off?
+  - Example: "Repository pattern made testing easy → use always"
+
+**Process Patterns**:
+- Same planning step repeatedly unclear?
+  - Example: "Unclear how to handle multi-tenancy → add explicit section"
+- Same quality gate repeatedly triggering?
+  - Example: "Coverage dropping each milestone → set baseline correctly"
+- Same type of user feedback?
+  - Example: "UI always needs revision → add UI mockup review step"
+
+### Share Learnings Summary
+
+If working with team or planning similar projects, create summary:
+
+**Top 5 Successes**:
+1. [Success 1 - with metric if possible]
+2. [Success 2]
+3. [Success 3]
+4. [Success 4]
+5. [Success 5]
+
+**Top 5 Lessons Learned**:
+1. [Lesson 1 - with recommended action]
+2. [Lesson 2]
+3. [Lesson 3]
+4. [Lesson 4]
+5. [Lesson 5]
+
+**Recommendations for Future Projects**:
+- **Do**: [Thing to repeat]
+- **Don't**: [Thing to avoid]
+- **Consider**: [Thing to evaluate case-by-case]
+
+---
+
 ## References
 
 **Planning documents**:
@@ -464,5 +548,5 @@ project-root/
 
 ---
 
-Generated using full-app-completion-summary.md on [date]
+Generated using full-app-completion-summary-tdd.md on [date]
 Last updated: [date]

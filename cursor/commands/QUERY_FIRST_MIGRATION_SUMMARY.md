@@ -34,7 +34,7 @@ Every architectural decision now follows:
 
 ## Files Updated
 
-### 2. full-app-02-architecture.md
+### 2. full-app-02-architecture-tdd.md
 **Changes Made**:
 
 #### Before (Assumptions):
@@ -149,7 +149,7 @@ Every architectural decision now follows:
 
 ---
 
-### 5. bug-workflow-builder.md
+### 5. bug-workflow-builder-tdd.md
 **Changes Made**:
 
 #### Before (Assumptions):
@@ -364,10 +364,10 @@ Every option includes honest cons:
 - QUERY_FIRST_PATTERN.md (template and guidelines)
 
 ### Files Updated: 6
-1. full-app-02-architecture.md
+1. full-app-02-architecture-tdd.md
 2. data-lakehouse-builder.md
 3. devops-change-builder.md
-4. bug-workflow-builder.md
+4. bug-workflow-builder-tdd.md
 5. network-flow-builder.md
 6. QUERY_FIRST_MIGRATION_SUMMARY.md (this file)
 
@@ -420,10 +420,10 @@ For each updated command, verify:
 
 ### Other Files to Update (Lower Priority)
 Consider applying query-first pattern to:
-- full-app-01-prd.md (scope decisions)
-- full-app-03-data-model.md (normalization vs denormalization)
-- full-app-05-ui-ux.md (UX complexity level)
-- full-app-07-security-nfr.md (security baseline level)
+- full-app-01-prd-tdd.md (scope decisions)
+- full-app-03-data-model-tdd.md (normalization vs denormalization)
+- full-app-05-ui-ux-tdd.md (UX complexity level)
+- full-app-07-security-nfr-tdd.md (security baseline level)
 
 ### Pattern Reinforcement
 - Add QUERY_FIRST_PATTERN.md reference to each command file

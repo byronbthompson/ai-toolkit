@@ -1,4 +1,6 @@
-Open /specs/07_SECURITY_NFR.md and draft:
+Read ${SPEC_PATH} from 00_START_HERE.md (look for "SPEC_PATH:" at the top).
+
+Open ${SPEC_PATH}07_SECURITY_NFR.md and draft:
 
 - AuthN/AuthZ requirements
 - RBAC + scope model
@@ -37,7 +39,7 @@ Open /specs/07_SECURITY_NFR.md and draft:
   - Present cost estimate to user before proceeding
   - Ask: "This design will cost approximately $X/month in services. Proceed or adjust scope?"
   - Offer cost reduction alternatives if budget is a concern
-  - Document cost acceptance in 09_DECISIONS.md
+  - Document cost acceptance in ${SPEC_PATH}09_DECISIONS.md
 - Performance targets
 - Performance Budget (for enterprise-level planning):
   Define acceptable performance targets:
@@ -65,7 +67,7 @@ Open /specs/07_SECURITY_NFR.md and draft:
   - Optimize only when budget violated (avoid premature optimization)
   - Profile before optimizing (measure, don't guess)
   - Focus on user-facing metrics (loading time, responsiveness)
-  - Document optimization decisions in 09_DECISIONS.md
+  - Document optimization decisions in ${SPEC_PATH}09_DECISIONS.md
   USER PREFERENCE LEVELS:
   - Fast: Aggressive targets, optimize early (use for user-facing apps)
   - Standard: Reasonable targets, optimize when needed (most projects)
@@ -75,6 +77,9 @@ Open /specs/07_SECURITY_NFR.md and draft:
 
 Review OFFICIAL security hardening docs for stack + cloud.
 Present baseline vs hardened options and recommend one.
-Record decisions in 09_DECISIONS.md.
+Record decisions in ${SPEC_PATH}09_DECISIONS.md.
 Ask ONE blocking question.
 No code changes.
+
+---
+**NEXT STEP**: When 07_SECURITY_NFR.md is complete and approved, run `full-app-08-testing-release-tdd.md` to define testing and release strategy.

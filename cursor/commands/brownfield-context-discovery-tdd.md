@@ -233,7 +233,7 @@ PHASE 6: INTEGRATION STRATEGY
 Update 10_BUILD_MAP.md to include integration milestones:
 
 MILESTONE 0 (Brownfield Only): CONTEXT DISCOVERY
-- Complete brownfield-context-discovery.md process
+- Complete brownfield-context-discovery-tdd.md process
 - Generate 00_BROWNFIELD_CONTEXT.md
 - Review with user for accuracy
 - Get user approval before planning new features

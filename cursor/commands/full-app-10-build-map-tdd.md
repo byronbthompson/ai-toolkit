@@ -1,16 +1,22 @@
-Create /specs/BUILD_MAP.md.
+Read ${SPEC_PATH} from 00_START_HERE.md (look for "SPEC_PATH:" at the top).
+
+Create ${SPEC_PATH}BUILD_MAP.md.
 
 Requirements:
 - Milestones ordered for a SINGLE developer
+- **IMPORTANT**: All time estimates assume **AI-assisted development** (Claude, Cursor, or similar)
+
 - BROWNFIELD INTEGRATION MILESTONES (if existing codebase):
-  MILESTONE 0: CONTEXT DISCOVERY (brownfield only, ~30-60 min)
-  - Complete brownfield-context-discovery.md process
+  MILESTONE 0: CONTEXT DISCOVERY (brownfield only, ~20-40 min AI-assisted)
+  - Complete brownfield-context-discovery-tdd.md process
   - Generate 00_BROWNFIELD_CONTEXT.md
   - Identify existing patterns, constraints, risks
   - Review with user for accuracy
   - Get user approval of context analysis
   - No code changes, pure exploration
-  MILESTONE 1: ENVIRONMENT + BASELINE (brownfield only, ~30-60 min)
+  - AI speedup: Automated codebase scanning, pattern recognition (2x faster)
+
+  MILESTONE 1: ENVIRONMENT + BASELINE (brownfield only, ~20-40 min AI-assisted)
   - Set up local development environment
   - Run existing tests → establish baseline (X% coverage, Y tests passing)
   - Run existing linter → establish baseline (N violations)
@@ -18,7 +24,9 @@ Requirements:
   - Verify can run application locally
   - Document baseline in BUILD_MAP.md
   - No code changes, just verification
-  MILESTONE 2: INTEGRATION SPIKE (brownfield recommended, ~1-2 hours)
+  - AI speedup: Automated test/build execution, baseline documentation (1.5x faster)
+
+  MILESTONE 2: INTEGRATION SPIKE (brownfield recommended, ~30-60 min AI-assisted)
   - Implement SMALLEST possible integration with existing code
   - Example: Add one new API endpoint following existing pattern
   - Example: Add one new model/table with migration
@@ -30,11 +38,15 @@ Requirements:
     - Build still succeeds
     - Patterns match existing code
   - If spike fails, revise approach before continuing
+  - AI speedup: Pattern matching, boilerplate generation (2-3x faster)
+  - Manual equivalent: 2-3 hours
+
   MILESTONE 3+: Feature Implementation
   - Build new features incrementally
   - Each milestone validates no regression (all existing tests pass)
   - Each milestone maintains or improves coverage
   - Each milestone follows patterns from integration spike
+  - AI speedup: Code generation, test writing (3-5x faster per milestone)
 - MVP-Focused Milestone Design:
   - Each milestone should deliver working, testable functionality (not partial features)
   - Avoid milestones that create incomplete features (e.g., UI without backend)
@@ -94,3 +106,6 @@ Requirements:
 
 Do not implement code yet.
 Ask ONE final blocking question before we enter implementation mode.
+
+---
+**NEXT STEP**: When 10_BUILD_MAP.md is complete and approved, run `full-app-10a-plan-approval-gate-tdd.md` for final plan review and approval.

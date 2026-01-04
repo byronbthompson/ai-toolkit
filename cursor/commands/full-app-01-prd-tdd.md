@@ -1,4 +1,6 @@
-x`  Open /specs/01_PRD.md and draft:
+Read ${SPEC_PATH} from the previous step's 00_START_HERE.md file (look for "SPEC_PATH:" at the top).
+
+Open ${SPEC_PATH}01_PRD.md and draft:
 
 - Problem statement
 - Personas
@@ -30,39 +32,55 @@ Before finalizing, review any relevant OFFICIAL docs/standards (name them and wh
 
 SCENARIO PLANNING (present delivery options):
 
-Generate 3 implementation scenarios based on requirements:
+**IMPORTANT**: All time estimates assume **AI-assisted development** (Claude, Cursor, or similar AI agents).
+AI agents can code 3-5x faster than manual development for most tasks.
 
-SCENARIO A - LEAN MVP (2-4 milestones, 2-6 hours):
+Generate 3-4 implementation scenarios based on requirements:
+
+SCENARIO A - LEAN MVP (2-4 milestones, 1-3 hours AI-assisted):
 - Scope: Core feature only, minimal error handling, hardcoded configs where acceptable
 - Quality: Basic tests, 70%+ coverage, essential validations only
 - Features: [list absolute minimum features to prove concept]
 - Compromises: Limited edge case handling, basic UI, no advanced features
 - Use case: Quick validation, prototype for feedback, proof of concept
-- Time estimate: [X hours]
+- AI-assisted time: 1-3 hours (planning: 30-45 min, implementation: 30 min-2 hours)
+- Manual equivalent: 6-15 hours (3-5x slower)
 
-SCENARIO B - STANDARD PRODUCTION (4-8 milestones, 8-16 hours):
+SCENARIO B - STANDARD PRODUCTION (4-8 milestones, 4-8 hours AI-assisted):
 - Scope: Full feature set from PRD, proper error handling, security baseline
 - Quality: Comprehensive tests, 80%+ coverage, all acceptance criteria met
 - Features: [list all features from PRD scope]
 - Compromises: Standard security (not hardened), good enough performance
 - Use case: Ship to real users, maintain long-term, production-ready
-- Time estimate: [Y hours]
+- AI-assisted time: 4-8 hours (planning: 1-1.5 hours, implementation: 3-6.5 hours)
+- Manual equivalent: 20-40 hours (4-5x slower)
 
-SCENARIO C - ENTERPRISE GRADE (8-12 milestones, 16-30 hours):
+SCENARIO C - ENTERPRISE GRADE (8-12 milestones, 10-18 hours AI-assisted):
 - Scope: Everything in B + advanced features, hardened security, monitoring
 - Quality: Exhaustive tests, 90%+ coverage, performance optimization
 - Features: [list all features plus enterprise additions like audit logs, HA, etc.]
 - Enhancements: Rate limiting, comprehensive logging, metrics, alerting
 - Use case: Critical business app, high scale, compliance requirements
-- Time estimate: [Z hours]
+- AI-assisted time: 10-18 hours (planning: 1.5-2 hours, implementation: 8.5-16 hours)
+- Manual equivalent: 50-90 hours (5x slower)
 
-SCENARIO D - ENTERPRISE MULTI-TENANT (10-15 milestones, 24-40 hours):
+SCENARIO D - ENTERPRISE MULTI-TENANT (10-15 milestones, 16-28 hours AI-assisted):
 - Scope: Everything in C + multi-tenancy, white-labeling, internationalization
 - Quality: Full test coverage including tenant isolation, 90%+ coverage
 - Features: [all features + tenant management, custom branding, i18n]
 - Complexity: 50-100% additional time for multi-tenant architecture
 - Use case: SaaS product, multiple customers, custom branding per customer
-- Time estimate: [W hours]
+- AI-assisted time: 16-28 hours (planning: 2-2.5 hours, implementation: 14-25.5 hours)
+- Manual equivalent: 80-140 hours (5x slower)
+
+**AI Efficiency Factors**:
+- ✅ Boilerplate code: Near-instant generation (5-10x faster)
+- ✅ Test writing: Automated from acceptance criteria (3-5x faster)
+- ✅ Documentation: Auto-generated from code (10x faster)
+- ✅ Refactoring: Systematic and safe (3-4x faster)
+- ⚠️ Complex algorithms: 2-3x faster (still requires human review)
+- ⚠️ Architecture decisions: Same speed (human judgment required)
+- ⚠️ Debugging edge cases: 1.5-2x faster (human insight critical)
 
 PROGRESSIVE PATH:
 - Can start with Scenario A and evolve to B/C/D incrementally
@@ -73,3 +91,6 @@ PROGRESSIVE PATH:
 Present 2–4 scope options (Lean MVP / Standard / Ambitious / Enterprise) and recommend one based on scenario analysis.
 Ask ONE blocking question.
 No code changes.
+
+---
+**NEXT STEP**: When 01_PRD.md is complete and approved, run `full-app-02-architecture-tdd.md` to design the system architecture.

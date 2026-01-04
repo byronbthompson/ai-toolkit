@@ -1,4 +1,6 @@
-Open /specs/04_API_CONTRACT.md and draft:
+Read ${SPEC_PATH} from 00_START_HERE.md (look for "SPEC_PATH:" at the top).
+
+Open ${SPEC_PATH}04_API_CONTRACT.md and draft:
 
 - Auth model (how requests are authenticated)
 - RBAC rules (authorization checks)
@@ -16,6 +18,9 @@ If API framework not yet chosen, ask:
 
 Review OFFICIAL API framework + auth provider docs for best practices.
 Present 2–3 API design options and recommend one.
-Record decisions in 09_DECISIONS.md.
+Record decisions in ${SPEC_PATH}09_DECISIONS.md.
 Ask ONE blocking question.
 No code changes.
+
+---
+**NEXT STEP**: When 04_API_CONTRACT.md is complete and approved, run `full-app-05-ui-ux-tdd.md` to design the UI/UX.

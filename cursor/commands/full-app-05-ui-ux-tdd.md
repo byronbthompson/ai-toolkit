@@ -1,4 +1,6 @@
-Open /specs/05_UI_UX.md and draft:
+Read ${SPEC_PATH} from 00_START_HERE.md (look for "SPEC_PATH:" at the top).
+
+Open ${SPEC_PATH}05_UI_UX.md and draft:
 
 - Screen inventory
 - Route map
@@ -71,6 +73,9 @@ Open /specs/05_UI_UX.md and draft:
 
 Review OFFICIAL UI framework guidance + accessibility standards (briefly).
 Present 2–3 UX approaches (minimal screens vs guided flow vs power-user) and recommend one.
-Record decisions in 09_DECISIONS.md.
+Record decisions in ${SPEC_PATH}09_DECISIONS.md.
 Ask ONE blocking question.
 No code changes.
+
+---
+**NEXT STEP**: When 05_UI_UX.md is complete and approved, run `full-app-06-design-system-tdd.md` to define the design system.

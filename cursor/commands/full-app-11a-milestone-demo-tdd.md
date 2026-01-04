@@ -1,6 +1,8 @@
 MILESTONE VALIDATION CHECKPOINT
 
-After BUILD_MAP.md update and commit for Milestone N, PAUSE for user validation.
+Read ${SPEC_PATH} from 00_START_HERE.md (look for "SPEC_PATH:" at the top).
+
+After ${SPEC_PATH}BUILD_MAP.md update and commit for Milestone N, PAUSE for user validation.
 
 DO NOT proceed to Milestone N+1 until user approves this milestone.
 
@@ -89,18 +91,24 @@ AGENT PAUSE: Wait for user response before continuing.
 HANDLING USER FEEDBACK:
 
 If user requests changes:
-- Document feedback in 09_DECISIONS.md
-- Update BUILD_MAP.md if milestone plan changes
+- Document feedback in ${SPEC_PATH}09_DECISIONS.md
+- Update ${SPEC_PATH}BUILD_MAP.md if milestone plan changes
 - Update relevant spec docs if requirements changed
 - Revise current milestone code if needed
 - Re-run quality gates after changes
 - Re-present this validation checkpoint
 
 If user approves:
-- Document approval in BUILD_MAP.md: "Milestone N approved by user on [date]"
+- Document approval in ${SPEC_PATH}BUILD_MAP.md: "Milestone N approved by user on [date]"
+- **IF tickets were created** (check if ${SPEC_PATH}TICKETS_CREATED.md exists):
+  - Update ticket status in ticketing system (Linear/GitHub/Jira)
+  - Mark milestone story as "Complete" or move to "Done" column
+  - Add demo notes/video URL to ticket comments (if applicable)
+  - Update related tickets if dependencies unblocked
 - Proceed to Milestone N+1 using full-app-11-implement-milestone-n.md
 
 If user requests pivot:
 - Return to architecture/design phase for affected documents
-- Regenerate BUILD_MAP.md with revised plan
-- Use full-app-10a-plan-approval-gate.md for new plan approval
+- Regenerate ${SPEC_PATH}BUILD_MAP.md with revised plan
+- Use full-app-10a-plan-approval-gate-tdd.md for new plan approval
+- **IF tickets exist**: Update affected tickets or create new ones with full-app-12-generate-tickets-tdd.md

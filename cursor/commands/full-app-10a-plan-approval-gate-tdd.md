@@ -21,9 +21,13 @@ Generate a clear, concise summary:
 PROJECT OVERVIEW:
 - What you are building: [1-2 sentence description]
 - Technology stack: [languages, frameworks, databases, key libraries]
-- Complexity level: [Simple/Moderate/Complex/Very Complex - with hour estimate]
+- Complexity level: [Simple/Moderate/Complex/Very Complex]
 - Total milestones: [N milestones]
-- Estimated agent time: [X-Y hours]
+- **Estimated AI-assisted time**: [X-Y hours] ⚡ (AI-powered development with Claude/Cursor)
+  - Planning: [A-B hours] (already completed)
+  - Implementation: [C-D hours] (remaining work)
+  - Quality gates: ~[E min] per milestone
+- Manual equivalent: [W-Z hours] (3-5x slower without AI assistance)
 
 KEY DECISIONS SNAPSHOT:
 [For each major decision in 09_DECISIONS.md, provide 1 line summary]
@@ -57,9 +61,11 @@ RISKS AND MITIGATIONS:
 FINAL VALIDATION QUESTIONS:
 1. Does this plan match your vision for the project?
 2. Are you comfortable with the technology choices?
-3. Does the complexity/time estimate align with your expectations?
+3. Does the AI-assisted time estimate ([X-Y hours]) align with your expectations?
+   - Note: These are AI-assisted times (3-5x faster than manual coding)
+   - Manual development would take approximately [W-Z hours]
 4. Any concerns about costs or "points of no return"?
-5. Should we proceed to Milestone 1 implementation?
+5. Should we proceed to Milestone 1 implementation with AI assistance?
 
 IMPORTANT: Only after explicit user approval should you proceed to implementation.
 If user requests changes:
@@ -70,4 +76,9 @@ If user requests changes:
 
 If user approves:
 - Document approval date in BUILD_MAP.md
+- **OPTIONAL**: Generate tickets from specs (use full-app-12-generate-tickets-tdd.md)
+  - Ask user: "Would you like to generate tickets in your ticketing system (Linear/GitHub/Jira) now?"
+  - If YES: Run full-app-12-generate-tickets-tdd.md to create tickets
+  - If NO: Can run anytime during implementation
+  - Benefits: Team visibility, sprint planning, dependency tracking
 - Proceed to Milestone 1 implementation (use full-app-11-implement-milestone-n.md)

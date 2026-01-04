@@ -193,7 +193,7 @@ Document improvements needed to command files:
   - Current issue: [What's unclear or missing]
   - Suggested addition: [What to add]
   - Rationale: [Why needed]
-  - Example: "bug-workflow-builder.md"
+  - Example: "bug-workflow-builder-tdd.md"
     - Current issue: No guidance on production data analysis
     - Suggested addition: Add section on safe production data querying
     - Rationale: Many bugs require inspecting production data to debug

@@ -1,4 +1,6 @@
-Use /specs/BUILD_MAP.md.
+Read ${SPEC_PATH} from 00_START_HERE.md (look for "SPEC_PATH:" at the top).
+
+Use ${SPEC_PATH}BUILD_MAP.md.
 
 Implement Milestone <N> ONLY.
 - Do not start Milestone <N+1>.
@@ -29,13 +31,13 @@ Provide:
 - Update specs if behavior changed (record ADR if needed)
 
 After ALL quality gates pass:
-- Capture milestone learnings in LEARNINGS.md:
+- Capture milestone learnings in ${SPEC_PATH}LEARNINGS.md:
   Quick capture of key insights (detailed summary happens at project completion):
   - What worked well: [1-2 highlights]
   - What didn't work well: [1-2 challenges]
   - Process notes: [Any workflow observations]
   - Time: Estimated [X hours] vs Actual [Y hours], Variance [+/- Z hours because...]
-- Update BUILD_MAP.md to mark Milestone <N> as completed:
+- Update ${SPEC_PATH}BUILD_MAP.md to mark Milestone <N> as completed:
   - Add completion date
   - Mark milestone status as ✓ completed
   - Document actual vs planned (files, commands, coverage achieved)
@@ -45,7 +47,7 @@ After ALL quality gates pass:
 - Commit message format: "<type>: <summary>\n\n- Details\n- Test results: X/Y passed\n- Coverage: X%\n- Milestone <N> completed"
 
 AFTER COMMIT, PAUSE FOR MILESTONE VALIDATION:
-- Use full-app-11a-milestone-demo.md to present milestone completion to user
+- Use full-app-11a-milestone-demo-tdd.md to present milestone completion to user
 - Generate "What's New" summary with features, files changed, quality results
 - Provide validation instructions (how to run and test the new functionality)
 - Ask milestone validation questions

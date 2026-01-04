@@ -1,4 +1,6 @@
-Open /specs/08_TESTING_RELEASE.md and draft:
+Read ${SPEC_PATH} from 00_START_HERE.md (look for "SPEC_PATH:" at the top).
+
+Open ${SPEC_PATH}08_TESTING_RELEASE.md and draft:
 
 - Test pyramid (unit/integration/e2e) with coverage targets
 - Test Execution Strategy (tiered approach for fast feedback):
@@ -55,7 +57,7 @@ Open /specs/08_TESTING_RELEASE.md and draft:
   - Hybrid approach (default if uncertain)
     - TDD for complex features and all bug fixes
     - Implementation-first for simple features
-    - Document which approach for each feature type in 09_DECISIONS.md
+    - Document which approach for each feature type in ${SPEC_PATH}09_DECISIONS.md
 - Code coverage requirements:
   - Minimum overall coverage threshold (recommend 80% for new code)
   - Critical path coverage requirement (recommend 90%+)
@@ -82,6 +84,9 @@ Open /specs/08_TESTING_RELEASE.md and draft:
 
 Review OFFICIAL testing tool docs and recommended patterns.
 Present 2–3 testing strategy options and recommend one.
-Record decisions in 09_DECISIONS.md.
+Record decisions in ${SPEC_PATH}09_DECISIONS.md.
 Ask ONE blocking question.
 No code changes.
+
+---
+**NEXT STEP**: When 08_TESTING_RELEASE.md is complete and approved, run `full-app-10-build-map-tdd.md` to create the implementation plan.
