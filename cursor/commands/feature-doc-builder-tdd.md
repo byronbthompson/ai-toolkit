@@ -60,7 +60,81 @@ Before choosing approach, ask clarifying questions:
 - If greenfield: python preferred when appropriate (data work, apis, scripting)
 
 Review OFFICIAL docs for any touched frameworks/tools.
-Present 2–3 implementation approaches and recommend one.
-Record decisions in 09_DECISIONS.md.
-Ask ONE blocking question.
-No code changes.
+
+---
+
+## IMPLEMENTATION APPROACH SELECTION (Verbalized Sampling)
+
+**Context**: Implementation approach affects maintainability, testability, and alignment with existing codebase patterns.
+
+**Generate Diverse Options**:
+Think deeply about diversity - ensure options represent different architectural approaches (simple/pragmatic vs robust/scalable vs innovative).
+
+For EACH approach, provide:
+
+**Option A - [Simple/Direct Approach]** (Confidence: **[High/Medium/Low]** based on requirements)
+
+**Best for**: [When this approach makes sense]
+
+**Implementation**:
+- [Key technical decisions]
+- Files to create: [list]
+- Files to modify: [list]
+- Existing code to reuse: [list]
+
+**Pros**:
+- [3-5 advantages]
+
+**Cons**:
+- [3-5 honest tradeoffs]
+
+**Avoid If**:
+- [When this approach fails]
+
+**Reasoning**: I rate this **[confidence level]** because you mentioned "[reference their requirements/constraints]". This approach works well for [specific use case]. However, confidence drops to **[lower level]** if "[condition that changes recommendation]".
+
+**Time**: [X hours]
+
+---
+
+**Option B - [Robust/Scalable Approach]** (Confidence: **[High/Medium/Low]** based on requirements)
+
+[Same structure as Option A]
+
+---
+
+**Option C - [Alternative/Innovative Approach]** (Confidence: **[High/Medium/Low]** based on requirements)
+
+[Same structure as Option A]
+
+---
+
+**Recommendation**:
+Based on:
+- Feature complexity: [their answer]
+- Existing patterns: [from brownfield analysis]
+- Performance requirements: [their answer]
+- Tech stack: [their answer]
+
+I recommend **Option [A/B/C]** because [specific reasoning tying requirements to approach strengths].
+
+**Uncertainty acknowledgment**: I'm [confident/moderately confident/uncertain] because [reasoning]. Factors that could change my recommendation:
+- If [condition X], consider [alternative option]
+- If existing codebase uses [pattern Y], must follow that pattern
+- If performance becomes critical, may need [different approach]
+
+**Question**: "Which implementation approach do you prefer? (A/B/C)"
+
+🛑 WAIT FOR CONFIRMATION
+
+Once confirmed, record decision in 09_DECISIONS.md with:
+- Approach chosen
+- Reasoning (tying to requirements and existing patterns)
+- Files to create/modify
+- Reused components
+- Confidence score: [Low/Medium/High]
+
+---
+
+Ask ONE blocking question if any ambiguity remains.
+No code changes at this stage - only documentation.

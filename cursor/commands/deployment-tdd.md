@@ -69,51 +69,131 @@ Ask user clarifying questions:
 
 ---
 
-## Step 2: Present Deployment Platform Options
+## Step 2: Present Deployment Platform Options (Verbalized Sampling)
 
-Based on answers, present 2-4 platform options with tradeoffs:
+Based on answers:
+- App type: [their answer]
+- Expertise level: [their answer]
+- Scale/traffic: [their answer]
+- Budget: [their answer]
+
+**Context**: Platform choice is a "point of difficult return" - migrating platforms later requires significant re-architecture and downtime.
+
+**Generate Diverse Options**:
+Think deeply about diversity - ensure options represent different deployment philosophies (fully managed PaaS vs cloud infrastructure vs self-hosted).
 
 ### For Beginner + Low Scale + Free/Small Budget
 
-**RECOMMENDED: Vercel (if Next.js/React) or Render (if full-stack)**
+**Option A: Vercel** (Confidence: **High** for Next.js/React, **Low** for traditional backends)
 
-**Option A: Vercel** (best for Next.js, React, static sites)
-- **Pros**:
-  - Zero config deployment (connect GitHub, done)
-  - Automatic HTTPS, CDN, edge functions
-  - Generous free tier
-  - Excellent DX (developer experience)
-- **Cons**:
-  - Best for frontend/serverless, not ideal for long-running backends
-  - Vendor lock-in to Vercel platform
-- **Cost**: Free for hobby, $20/month pro
-- **Deployment complexity**: Very low (push to GitHub)
-- **Docs**: https://vercel.com/docs
+**Best for**: Next.js, React, static sites, frontend-focused apps, JAMstack
 
-**Option B: Render** (best for full-stack apps, Python, Node.js)
-- **Pros**:
-  - Supports any language (Python, Node, Go, Ruby, etc.)
-  - Free PostgreSQL database included
-  - Auto-deploy from GitHub
-  - Simple pricing
-- **Cons**:
-  - Free tier has cold starts (spins down after inactivity)
-  - Limited customization vs self-hosted
-- **Cost**: Free tier, $7/month for always-on
-- **Deployment complexity**: Low (web UI or render.yaml)
-- **Docs**: https://render.com/docs
+**Pros**:
+- Zero config deployment (connect GitHub repository, automatic deploys)
+- Automatic HTTPS, global CDN, edge functions included
+- Generous free tier (hobby projects free forever)
+- Excellent developer experience (preview deployments per PR)
+- Fast deployment (30-60 seconds)
 
-**Option C: Railway** (best for quick deploys)
-- **Pros**:
-  - Extremely simple (click to deploy)
-  - Built-in PostgreSQL, Redis, etc.
-  - Good for prototypes and MVPs
-- **Cons**:
-  - More expensive than Render for similar features
-  - Less mature than other platforms
-- **Cost**: $5/month minimum
-- **Deployment complexity**: Very low
-- **Docs**: https://docs.railway.app
+**Cons**:
+- Optimized for frontend/serverless (not ideal for long-running backend processes)
+- Vendor lock-in to Vercel platform features
+- Serverless functions have cold starts (100-300ms)
+- Limited to web workloads (no background jobs/workers)
+
+**Avoid If**:
+- You need traditional backend servers (Django, Rails, Express with WebSockets)
+- You need background workers or cron jobs (limited support)
+- High traffic expected (costs scale quickly beyond free tier)
+
+**Reasoning**: I rate this **High confidence** because you mentioned "[reference their app type if frontend]" which aligns perfectly with Vercel's strengths. However, confidence is **Low** if your "[reference app type]" includes backend services, as Vercel's serverless model has limitations.
+
+**Cost**: Free (hobby), $20/month (pro), scales with usage
+
+**Deployment complexity**: Very low (git push = deploy)
+
+**Reference**: https://vercel.com/docs
+
+---
+
+**Option B: Render** (Confidence: **High** for full-stack apps, **Medium** for high-traffic apps)
+
+**Best for**: Full-stack web apps, Python/Node.js backends, traditional server architecture
+
+**Pros**:
+- Supports any language/framework (Python, Node.js, Go, Ruby, Docker)
+- Free PostgreSQL/Redis databases included
+- Auto-deploy from GitHub (similar to Vercel)
+- Simple, predictable pricing
+- Native services (web services, workers, cron jobs)
+
+**Cons**:
+- Free tier has cold starts (services spin down after 15min inactivity)
+- Limited regions compared to AWS/GCP (US/EU only)
+- Smaller ecosystem than major clouds
+- Less customization than self-hosted
+
+**Avoid If**:
+- You need global low-latency (limited regions)
+- Always-on free tier required (free tier has cold starts)
+- Very high scale (100k+ concurrent users)
+
+**Reasoning**: I rate this **High confidence** because you mentioned "[reference expertise level: beginner]" and "[reference app type: full-stack]". Render provides the simplicity you need with traditional backend support. Confidence is **Medium** if you expect "[high traffic]" as Render's scale limits are lower than cloud platforms.
+
+**Cost**: Free (with cold starts), $7/month (always-on web service), $25/month (production database)
+
+**Deployment complexity**: Low (web UI or render.yaml file)
+
+**Reference**: https://render.com/docs
+
+---
+
+**Option C: Railway** (Confidence: **Medium** - good DX but less mature)
+
+**Best for**: Prototypes, MVPs, quick experiments, developer-friendly deployments
+
+**Pros**:
+- Extremely simple (one-click deploy from template)
+- Built-in services (PostgreSQL, Redis, MongoDB, etc.)
+- Modern interface and great developer experience
+- Usage-based pricing (pay only for what you use)
+- Quick to get started (< 5 minutes to deploy)
+
+**Cons**:
+- More expensive than Render for similar features
+- Newer platform (less mature, smaller community)
+- Limited documentation compared to alternatives
+- Fewer regions available
+
+**Avoid If**:
+- Budget is primary concern (Render is cheaper for same workload)
+- You need extensive documentation/tutorials
+- You need proven stability (Render/Vercel more established)
+
+**Reasoning**: I rate this **Medium confidence** because while Railway's DX is excellent for your "[reference expertise: beginner]" level, it's pricier than Render. Confidence would be **High** if you explicitly valued "fastest time to deploy" over cost, and **Low** if budget is constrained to free tier.
+
+**Cost**: $5/month minimum, usage-based after
+
+**Deployment complexity**: Very low (click to deploy)
+
+**Reference**: https://docs.railway.app
+
+---
+
+**Recommendation**:
+Based on your answers:
+- App type: [their answer]
+- Expertise: [their answer]
+- Budget: [their answer]
+
+I recommend **[Vercel/Render/Railway]** because [specific reasoning].
+
+**Uncertainty acknowledgment**: I'm [confident/moderately confident/uncertain] because [reasoning]. Factors that could change my recommendation:
+- If app includes background workers, must use [Render]
+- If app is Next.js/React only, [Vercel] is ideal
+- If budget is constrained to $0, [Render free tier with cold starts]
+
+**Question**: "Which platform do you prefer for deployment? (A/B/C)"
 
 🛑 WAIT FOR PLATFORM SELECTION
 

@@ -70,7 +70,7 @@ Ask ONE question at a time. Wait for answer before proceeding.
 
 ---
 
-## PHASE 2: TECHNOLOGY STACK DECISION
+## PHASE 2: TECHNOLOGY STACK DECISION (Verbalized Sampling)
 
 Based on your answers:
 - Performance needs: [their answer]
@@ -79,39 +79,116 @@ Based on your answers:
 
 ### DECISION REQUIRED: Technology Stack
 
-**Option A - Python with FastAPI** (RECOMMENDED for API-heavy, data processing, ML/AI)
-- **Why recommended**: Excellent for rapid development, rich ecosystem, great for data/ML workloads
-- **Best for**: Your stated requirements [reference their answers]
-- **Pros**:
-  - Fast development cycles
-  - Extensive libraries (data science, ML, API frameworks)
-  - Large community and support
-  - Type hints with Pydantic for data validation
-- **Cons**:
-  - GIL limits CPU-bound multi-threading
-  - Not as fast as compiled languages (Go, Rust)
-  - Package management can be complex
-- **Reference**: https://fastapi.tiangolo.com/ (modern, high-performance framework)
-- **Environment management**: conda (recommended) or venv
+**Context**: This is a "point of no easy return" - changing languages/frameworks mid-project requires significant rewrite effort.
 
-**Option B - Node.js with TypeScript/Express**
-- **Best for**: JavaScript full-stack teams, I/O-heavy workloads, real-time features
-- **Pros**:
-  - JavaScript everywhere (frontend + backend)
-  - Excellent for I/O-bound operations
-  - Large npm ecosystem
-  - WebSocket support built-in
-- **Cons**:
-  - Callback/async complexity
-  - Less type safety than Python (even with TypeScript)
-  - npm dependency hell (large node_modules)
-- **Reference**: https://expressjs.com/
-- **Environment management**: nvm for Node version management
+**Generate Diverse Options**:
+Think deeply about diversity - ensure options represent different programming paradigms and ecosystem philosophies, not just minor variations.
 
-**Option C - [Other stack based on team expertise]**
-- [Customize based on their answer to Question 2]
+For EACH option, provide:
 
-**Question**: "Which technology stack do you prefer? (A/B/C or describe alternative)"
+**Option A - Python with FastAPI** (Confidence: **High** if data/ML/API focus, **Medium** for real-time apps)
+
+**Best for**: API-heavy backends, data processing pipelines, ML/AI integration, rapid prototyping
+
+**Pros**:
+- Fast development cycles with excellent developer experience
+- Extensive libraries (data science, ML, API frameworks, scientific computing)
+- Type hints with Pydantic provide runtime validation + IDE support
+- Large community and comprehensive documentation
+- Excellent for async operations (asyncio)
+
+**Cons**:
+- GIL limits true CPU-bound parallel processing (not I/O-bound)
+- Slower runtime performance than compiled languages (Go, Rust, Java)
+- Package management complexity (pip/conda/poetry ecosystem fragmentation)
+- Dynamic typing can hide bugs until runtime (even with type hints)
+
+**Avoid If**:
+- You need extreme low-latency (<10ms) or high-throughput (100k+ RPS)
+- CPU-bound parallel processing is critical (video encoding, simulations)
+- Team has zero Python experience and tight deadlines
+
+**Reasoning**: I rate this **High confidence** because you mentioned "[reference their performance answer]" and "[reference their team expertise answer]". FastAPI is battle-tested for [specific use case from their answers]. However, confidence drops to **Medium** if you need WebSocket-heavy real-time features, where Node.js ecosystem is more mature.
+
+**Reference**: https://fastapi.tiangolo.com/
+
+---
+
+**Option B - Node.js with TypeScript/Express** (Confidence: **High** for full-stack JS teams, **Low** for data-heavy workloads)
+
+**Best for**: JavaScript full-stack teams, I/O-heavy workloads, real-time features (WebSockets), JAMstack architectures
+
+**Pros**:
+- JavaScript everywhere (share code/types between frontend + backend)
+- Excellent for I/O-bound operations (event loop architecture)
+- Massive npm ecosystem (800k+ packages)
+- WebSocket support built-in, great for real-time (Socket.io)
+- TypeScript adds compile-time type safety
+
+**Cons**:
+- Callback/Promise/async-await complexity ("callback hell" risk)
+- npm dependency hell (node_modules size, supply chain risks)
+- Weaker data science/ML ecosystem than Python
+- TypeScript adds build complexity
+
+**Avoid If**:
+- Heavy data processing or ML/AI workloads
+- Team has no JavaScript experience
+- You need strong compile-time guarantees (consider Go/Rust instead)
+
+**Reasoning**: I rate this **High confidence** because you mentioned "[reference if they said full-stack JavaScript team]". Node.js excels at [specific use case]. However, confidence is **Low** if your "[reference performance answer]" includes data processing, where Python's ecosystem is far superior.
+
+**Reference**: https://expressjs.com/
+
+---
+
+**Option C - Go with Gin/Echo** (Confidence: **Medium** - depends on team willingness to learn)
+
+**Best for**: High-performance APIs, microservices, cloud-native apps, systems programming
+
+**Pros**:
+- Compiled language = fast (10-100x faster than Python/Node for CPU tasks)
+- Built-in concurrency (goroutines) - excellent for parallel processing
+- Small binary size, fast startup (great for containers/serverless)
+- Strong typing catches bugs at compile-time
+- Simple deployment (single binary, no runtime dependencies)
+
+**Cons**:
+- Steeper learning curve than Python/Node.js
+- Less mature web framework ecosystem
+- Verbose error handling (no exceptions)
+- Smaller community than Python/JavaScript
+
+**Avoid If**:
+- Team has no Go experience and needs rapid delivery
+- You need rich ML/data science libraries
+- Rapid iteration is more important than raw performance
+
+**Reasoning**: I rate this **Medium confidence** because while Go matches your "[reference performance answer]" needs, you mentioned "[reference team expertise answer]". Go requires learning investment (2-4 weeks for team to become productive), but pays off for high-scale systems. Confidence would be **High** if you explicitly stated "performance-critical microservices."
+
+**Reference**: https://gin-gonic.com/
+
+---
+
+**Option D - [Custom based on team expertise]**
+If you mentioned expertise in Java/Spring Boot, .NET/C#, or Rust, I'll provide a tailored option here.
+
+---
+
+**Recommendation**:
+Based on your answers:
+- Performance: [their answer]
+- Team expertise: [their answer]
+- Infrastructure: [their answer]
+
+I recommend **Option [A/B/C]** because [specific reasoning tying their requirements to option strengths].
+
+**Uncertainty acknowledgment**: I'm [confident/moderately confident/uncertain] because [explain reasoning]. Factors that could change my recommendation:
+- If you need [specific feature], consider [alternative option]
+- If your team already knows [language], that reduces risk significantly
+- If budget for [infrastructure cost] is constrained, [option] may be cheaper
+
+**Question**: "Which technology stack do you prefer? (A/B/C/D or describe alternative)"
 
 🛑 WAIT FOR CONFIRMATION - Do not proceed until explicit choice is made
 
@@ -136,51 +213,126 @@ Once confirmed, record decision in ${SPEC_PATH}09_DECISIONS.md with reasoning.
 
 **IF YES to multi-tenancy, ask follow-up questions:**
 
-### Question 5: Data Isolation Requirements
+### Question 5: Data Isolation Requirements (Verbalized Sampling)
 
 "What level of data isolation do you require between tenants?"
 
-**Option A - Shared schema with tenant_id** (RECOMMENDED for cost optimization)
-- **Why recommended**: Simplest implementation, lowest infrastructure cost, good performance
-- **Best for**: SaaS apps where tenants trust the platform, no regulatory isolation requirements
-- **Pros**:
-  - Simple to implement and maintain
-  - Low infrastructure cost (single database)
-  - Easy to add features across all tenants
-  - Good query performance with proper indexing
-- **Cons**:
-  - Risk of data leakage if queries miss tenant_id filter
-  - All tenants affected by database issues
-  - Less appealing to enterprise customers
-- **Security**: Row-level security (RLS) policies required
-- **Implementation effort**: Low (1-2 days)
+**Context**: This is a fundamental architectural decision that affects security, cost, complexity, and scalability. Migration between isolation models later requires significant database restructuring.
 
-**Option B - Schema per tenant** (PostgreSQL schemas)
-- **Best for**: Moderate isolation needs, compliance requirements, tenant-specific customization
-- **Pros**:
-  - Better isolation than shared schema
-  - Tenant-specific migrations possible
-  - Easier backup/restore per tenant
-  - Some regulatory compliance scenarios
-- **Cons**:
-  - Connection pooling complexity
-  - Schema count limits (PostgreSQL: 100-1000s schemas practical)
-  - Migrations must run across all schemas
-- **Implementation effort**: Medium (3-5 days)
+**Generate Diverse Options**:
+Think deeply about diversity - ensure options represent different security/cost tradeoff philosophies, from shared to fully isolated.
 
-**Option C - Database per tenant** (MAXIMUM ISOLATION)
-- **Best for**: Strict regulatory requirements (HIPAA, financial), enterprise customers, geographic data residency
-- **Pros**:
-  - Complete data isolation
-  - Tenant-specific performance tuning
-  - Easy to move tenants between servers
-  - Satisfies most compliance requirements
-- **Cons**:
-  - High infrastructure cost (database per tenant)
-  - Complex management (migrations, monitoring, backups)
-  - Connection pool exhaustion risk
-  - Difficult to run cross-tenant analytics
-- **Implementation effort**: High (1-2 weeks)
+For EACH option, provide:
+
+**Option A - Shared schema with tenant_id** (Confidence: **High** for SMB SaaS, **Low** for regulated industries)
+
+**Best for**: B2B SaaS targeting SMBs, consumer apps, startups optimizing for cost and speed
+
+**Pros**:
+- Simplest implementation (add tenant_id column to tables)
+- Lowest infrastructure cost (single database serves all tenants)
+- Easy to add features across all tenants (single migration)
+- Good query performance with proper indexing on tenant_id
+- Easy cross-tenant analytics and reporting
+
+**Cons**:
+- Data leakage risk if ANY query forgets WHERE tenant_id = X filter
+- All tenants affected by database outages or performance issues
+- Less appealing to enterprise customers (shared database perception)
+- Difficult to move individual tenants to different servers
+- Regulatory compliance challenges (HIPAA, SOC2 Type II harder)
+
+**Avoid If**:
+- Regulatory requirements mandate data isolation (healthcare, finance, government)
+- Targeting enterprise customers who demand dedicated infrastructure
+- You have limited database expertise (WHERE clause mistakes = data leakage)
+
+**Reasoning**: I rate this **High confidence** because you mentioned "[reference their tenant type/size from earlier answers]". Shared schema works well for [X tenants] with [Y data sensitivity]. However, confidence drops to **Low** if you're targeting "[enterprise/regulated industry]" where compliance auditors will scrutinize this choice.
+
+**Security**: Row-level security (RLS) policies REQUIRED (PostgreSQL RLS or application-level checks)
+
+**Implementation effort**: Low (1-2 days)
+
+**Reference**: https://www.postgresql.org/docs/current/ddl-rowsecurity.html
+
+---
+
+**Option B - Schema per tenant** (Confidence: **Medium** - sweet spot for many use cases, but has scaling limits)
+
+**Best for**: Moderate isolation needs, 10-1000 tenants, compliance requirements, tenant-specific customization
+
+**Pros**:
+- Better isolation than shared schema (separate PostgreSQL schemas)
+- Tenant-specific migrations/customization possible
+- Easier backup/restore per tenant
+- Satisfies some regulatory compliance scenarios
+- Impossible to accidentally query another tenant's data
+
+**Cons**:
+- Connection pooling complexity (must switch schema per query)
+- Schema count limits (PostgreSQL handles 100-1000s schemas, but performance degrades)
+- Migrations must run across ALL schemas (N tenants = N migrations)
+- Harder to run cross-tenant analytics
+- More complex ORM configuration
+
+**Avoid If**:
+- You expect 10,000+ tenants (schema-per-tenant doesn't scale to that level)
+- Strict regulatory isolation required (HIPAA/PCI may require database-per-tenant)
+- Cross-tenant analytics is a core feature
+
+**Reasoning**: I rate this **Medium confidence** because while schema-per-tenant provides good isolation for your "[reference tenant count expectation]", it introduces operational complexity. Confidence would be **High** if you explicitly stated "100-500 tenants with compliance needs" and **Low** if you said "unlimited tenant growth."
+
+**Implementation effort**: Medium (3-5 days + ongoing schema management overhead)
+
+**Reference**: https://www.citusdata.com/blog/2016/10/03/designing-your-saas-database-for-high-scalability/
+
+---
+
+**Option C - Database per tenant** (Confidence: **High** for regulated industries, **Low** for high tenant counts)
+
+**Best for**: Strict regulatory requirements (HIPAA, PCI-DSS, financial), enterprise customers, geographic data residency
+
+**Pros**:
+- Complete data isolation (impossible to access another tenant's data)
+- Tenant-specific performance tuning and scaling
+- Easy to move tenants between servers/regions (geographic compliance)
+- Satisfies most compliance requirements (auditors love this)
+- Individual tenant backups/restores trivial
+
+**Cons**:
+- High infrastructure cost ($10-50/tenant/month for managed databases)
+- Complex management (N tenants = N databases to migrate, monitor, backup)
+- Connection pool exhaustion risk with 100+ tenants
+- Cross-tenant analytics extremely difficult (requires federated queries)
+- Provisioning new tenant takes longer (spin up database)
+
+**Avoid If**:
+- You expect thousands of tenants (cost becomes prohibitive)
+- Budget-conscious startup (infrastructure costs scale linearly with tenants)
+- You lack DevOps expertise to manage many databases
+
+**Reasoning**: I rate this **High confidence** because you mentioned "[reference if they said HIPAA/PCI/enterprise]". Database-per-tenant is the gold standard for compliance and enterprises expect this. However, confidence is **Low** if your "[reference tenant count]" is high, as cost becomes ($50/tenant × 1000 tenants = $50k/month).
+
+**Implementation effort**: High (1-2 weeks initial setup + ongoing per-tenant management)
+
+**Cost**: $10-50/tenant/month (managed PostgreSQL on AWS RDS, Azure, GCP)
+
+**Reference**: https://aws.amazon.com/rds/postgresql/pricing/
+
+---
+
+**Recommendation**:
+Based on your answers:
+- Tenant type: [their answer]
+- Compliance needs: [their answer]
+- Expected tenant count: [their answer]
+
+I recommend **Option [A/B/C]** because [specific reasoning tying requirements to option].
+
+**Uncertainty acknowledgment**: I'm [confident/moderately confident/uncertain] because [explain reasoning]. Factors that could change my recommendation:
+- If compliance requirements become stricter, consider upgrading to [higher isolation option]
+- If tenant count exceeds [X], consider [different option]
+- If budget is constrained to $[Y]/month, [option] may be too expensive
 
 **Question**: "Which data isolation model do you prefer? (A/B/C)"
 
@@ -307,108 +459,177 @@ Record in ${SPEC_PATH}09_DECISIONS.md:
 
 ---
 
-## PHASE 5: INFRASTRUCTURE & HOSTING DECISION (Query First)
+## PHASE 5: INFRASTRUCTURE & HOSTING DECISION (Verbalized Sampling)
 
 **CRITICAL**: Infrastructure decisions are "points of no easy return" - changing platforms later is expensive.
 
-### Question 1: Deployment Environment
+### Question 1: Deployment Environment (Verbalized Sampling)
 
 "Where will this application be deployed?"
 
-**Option A - Cloud Platform** (RECOMMENDED for most applications)
-- **AWS**: Industry standard, most mature ecosystem
-  - Pros: Richest service catalog, excellent documentation, largest community
-  - Cons: Complex pricing, can be expensive without optimization, steep learning curve
-  - Best for: Enterprise apps, need for specialized services (ML, IoT, etc.)
-  - Effort: Medium (many services to learn)
-  - Reference: https://aws.amazon.com/
+**Context**: This decision affects cost, scalability, vendor lock-in, and operational complexity. Migration between platforms later requires significant re-architecture.
 
-- **Azure**: Strong for .NET/Microsoft stack, enterprise integration
-  - Pros: Excellent Microsoft integration, good for hybrid cloud, enterprise support
-  - Cons: Less mature than AWS in some areas, pricing complexity
-  - Best for: Microsoft shops, enterprise with Active Directory, hybrid scenarios
-  - Effort: Medium
-  - Reference: https://azure.microsoft.com/
+**Generate Diverse Options**:
+Think deeply about diversity - ensure options represent different philosophies (managed vs self-hosted, cloud vs PaaS vs serverless).
 
-- **Google Cloud (GCP)**: Strong data/ML capabilities, clean APIs
-  - Pros: Best-in-class data analytics/ML, simpler pricing, modern architecture
-  - Cons: Smaller ecosystem than AWS, fewer enterprise features
-  - Best for: Data-heavy apps, ML/AI workloads, startups
-  - Effort: Low-Medium (cleaner than AWS/Azure)
-  - Reference: https://cloud.google.com/
+**Option A - Platform-as-a-Service (PaaS)** (Confidence: **High** for MVPs/startups, **Medium** for scale)
 
-- **Multi-Cloud**: Use multiple providers
-  - Pros: Avoid vendor lock-in, leverage best-of-breed services
-  - Cons: Much higher complexity, need expertise in multiple platforms
-  - Best for: Large enterprises with compliance requirements
-  - Effort: High (managing multiple platforms)
-  - NOT RECOMMENDED for most projects
+**Best for**: Startups, MVPs, small teams prioritizing speed over control, frontend-focused apps
 
-**Option B - Platform-as-a-Service (PaaS)** (RECOMMENDED for rapid deployment)
-- **Vercel**: Best for Next.js/React, edge functions
-  - Pros: Zero-config deployment, excellent DX, global CDN, free tier generous
-  - Cons: Vendor lock-in, expensive at scale, limited to web apps
-  - Best for: Frontend apps, JAMstack, Next.js projects
-  - Cost: Free tier available, $20+/month pro
-  - Reference: https://vercel.com/
+**Pros**:
+- Zero-config deployment (git push = deploy)
+- Managed infrastructure (no DevOps needed)
+- Generous free tiers (Vercel/Netlify/Render/Railway)
+- Auto-scaling included
+- Built-in SSL, CDN, preview deployments
 
-- **Netlify**: Best for static sites, Jamstack
-  - Pros: Great for static sites, serverless functions, form handling
-  - Cons: Less suitable for full-stack apps, vendor lock-in
-  - Best for: Static sites, documentation, marketing pages
-  - Cost: Free tier available, $19+/month pro
-  - Reference: https://www.netlify.com/
+**Cons**:
+- Vendor lock-in (hard to migrate off platform-specific features)
+- Expensive at scale ($200-2000+/month for high traffic)
+- Limited backend capabilities (Vercel/Netlify optimized for frontend)
+- Less control over infrastructure
+- May not support all languages/frameworks
 
-- **Render**: Heroku alternative, full-stack friendly
-  - Pros: Simpler than cloud platforms, good for full-stack, auto-deploy from Git
-  - Cons: Less mature, fewer services than major clouds
-  - Best for: Full-stack web apps, APIs, databases
-  - Cost: Free tier available, $7+/month
-  - Reference: https://render.com/
+**Avoid If**:
+- You expect high traffic (cost scales exponentially)
+- You need custom infrastructure (specific OS, kernel tuning)
+- Background workers/cron jobs are critical (limited support on some PaaS)
 
-- **Railway**: Modern PaaS, great DX
-  - Pros: Simple deployment, good pricing, PostgreSQL included
-  - Cons: Newer platform, smaller ecosystem
-  - Best for: Side projects, startups, quick deploys
-  - Cost: $5+/month usage-based
-  - Reference: https://railway.app/
+**Reasoning**: I rate this **High confidence** because you mentioned "[reference their team size/expertise]". PaaS eliminates DevOps overhead for [small teams]. However, confidence drops to **Medium** if you expect "[high scale]" as costs become ($20/month MVP → $500+/month at 100k users).
 
-- **Fly.io**: Global edge deployment
-  - Pros: Run apps globally, good for low-latency, flexible
-  - Cons: More complex than other PaaS
-  - Best for: Global apps, low-latency requirements
-  - Cost: Pay-as-you-go
-  - Reference: https://fly.io/
+**Recommended PaaS options**:
+- **Vercel**: Next.js/React apps (best-in-class frontend DX)
+- **Render**: Full-stack apps with databases
+- **Railway**: Modern alternative with great pricing
+- **Fly.io**: Global edge deployment for low latency
 
-**Option C - Self-Hosted / On-Premises**
-- **Own servers**: VPS (DigitalOcean, Linode, Hetzner)
-  - Pros: Full control, predictable costs, no vendor lock-in
-  - Cons: YOU manage infrastructure, security, scaling, backups
-  - Best for: Cost-sensitive, full control needed, regulatory requirements
-  - Effort: High (infrastructure management)
-  - NOT RECOMMENDED unless specific requirement
+**Cost**: $0-50/month (MVP), $200-1000+/month (scale)
 
-- **On-premises (company data center)**
-  - Pros: Data stays in-house, regulatory compliance
-  - Cons: High capex, slow provisioning, limited scalability
-  - Best for: Regulatory requirements, existing data center
-  - Effort: Very High
-  - ONLY if mandated by policy
+**Reference**: https://vercel.com/, https://render.com/
 
-**Option D - Serverless** (RECOMMENDED for event-driven, variable workloads)
-- **AWS Lambda + API Gateway**
-  - Pros: Pay per use, auto-scaling, no servers to manage
-  - Cons: Cold starts, vendor lock-in, debugging complexity
-  - Best for: APIs, event processing, variable traffic
-  - Cost: Free tier generous, pay per invocation after
-  - Reference: https://aws.amazon.com/lambda/
+---
 
-- **Cloudflare Workers**: Edge serverless
-  - Pros: Global edge network, very fast cold starts, generous free tier
-  - Cons: V8 isolates (not full Node.js), limited execution time
-  - Best for: Edge functions, API proxies, low-latency needs
-  - Cost: Free tier available
-  - Reference: https://workers.cloudflare.com/
+**Option B - Cloud Platform (AWS/Azure/GCP)** (Confidence: **Medium** - depends on team DevOps expertise)
+
+**Best for**: Production apps expecting scale, need specialized services (ML, data analytics), enterprise requirements
+
+**Pros**:
+- Most flexible and powerful (every service imaginable)
+- Cost-effective at scale (cheaper than PaaS for high traffic)
+- No vendor lock-in to platform abstractions (use standard Docker/K8s)
+- Enterprise features (compliance certifications, SLAs, support)
+- Specialized services (ML, IoT, data warehouses, etc.)
+
+**Cons**:
+- Steep learning curve (100+ services to navigate)
+- Complex pricing (surprise bills common without monitoring)
+- YOU manage infrastructure (need DevOps expertise)
+- Slower initial deployment than PaaS
+- More operational overhead
+
+**Avoid If**:
+- Team has no DevOps experience (will struggle with setup)
+- MVP/prototype (overkill for early stage)
+- Small budget with no DevOps time ($500+/month minimum realistic)
+
+**Reasoning**: I rate this **Medium confidence** because while cloud platforms match your "[reference scale expectations]", you mentioned "[reference team expertise]". Success requires DevOps knowledge (or hiring DevOps engineer). Confidence would be **High** if you explicitly stated "have DevOps expertise" or "expect 100k+ users."
+
+**Cloud provider selection**:
+- **AWS**: Industry standard, richest ecosystem (RECOMMENDED for most)
+- **GCP**: Best for data/ML workloads, simpler than AWS
+- **Azure**: Best for .NET/Microsoft shops
+
+**Cost**: $100-500+/month (production), scales with usage
+
+**Reference**: https://aws.amazon.com/, https://cloud.google.com/
+
+---
+
+**Option C - Serverless** (Confidence: **High** for APIs/event-driven, **Low** for stateful apps)
+
+**Best for**: APIs, event-driven workloads, variable/unpredictable traffic, pay-per-use economics
+
+**Pros**:
+- Pay only for actual usage (not idle time)
+- Infinite auto-scaling (0 to millions of requests)
+- No servers to manage (fully managed)
+- Great free tiers (AWS Lambda: 1M requests/month free)
+- Perfect for variable traffic (news site, campaigns)
+
+**Cons**:
+- Cold starts (first request slow: 100ms-3s)
+- Vendor lock-in (AWS Lambda code hard to migrate)
+- Debugging complexity (distributed tracing required)
+- Not suitable for long-running processes (15min timeout AWS Lambda)
+- Stateless only (no in-memory session storage)
+
+**Avoid If**:
+- You need WebSockets/persistent connections
+- Long-running processes (video encoding, batch jobs >15min)
+- Consistent low-latency required (cold starts = unpredictable latency)
+
+**Reasoning**: I rate this **High confidence** because you mentioned "[reference if they said API/event-driven]". Serverless excels at [specific workload type]. However, confidence is **Low** if your "[reference app type]" requires persistent connections or stateful sessions.
+
+**Serverless options**:
+- **AWS Lambda**: Most mature, richest ecosystem
+- **Cloudflare Workers**: Edge serverless, no cold starts
+
+**Cost**: $0-20/month (low traffic), pay-per-request after free tier
+
+**Reference**: https://aws.amazon.com/lambda/, https://workers.cloudflare.com/
+
+---
+
+**Option D - Self-Hosted VPS** (Confidence: **Low** for most teams, **Medium** for cost-sensitive/regulatory)
+
+**Best for**: Cost-sensitive projects, regulatory requirements (data residency), need full control
+
+**Pros**:
+- Lowest cost at scale ($5-40/month for VPS)
+- Full control (install anything, kernel tuning)
+- No vendor lock-in (standard Linux server)
+- Predictable costs (fixed monthly, not usage-based)
+
+**Cons**:
+- YOU manage EVERYTHING (security patches, backups, scaling, monitoring)
+- High operational overhead (need sysadmin skills)
+- Single point of failure (no auto-scaling, manual failover)
+- Slow to provision/scale (manual setup)
+- Security is YOUR responsibility
+
+**Avoid If**:
+- Team lacks Linux sysadmin expertise
+- You need high availability (99.9%+ uptime)
+- You value time over cost (setup takes days/weeks)
+
+**Reasoning**: I rate this **Low confidence** for most teams because operational burden is high. However, confidence rises to **Medium** if you explicitly stated "[regulatory data residency]" or "[very limited budget with sysadmin skills]". At $5/month VPS, you save money but spend time.
+
+**VPS providers**:
+- **DigitalOcean**: Simple, good docs
+- **Linode**: Reliable, competitive pricing
+- **Hetzner**: Cheapest (Europe-based)
+
+**Cost**: $5-40/month (VPS), but hidden cost = DevOps time
+
+**Reference**: https://www.digitalocean.com/
+
+---
+
+**Recommendation**:
+Based on your answers:
+- App type: [their answer]
+- Team size/expertise: [their answer]
+- Expected scale: [their answer]
+- Budget: [their answer]
+
+I recommend **Option [A/B/C/D]** because [specific reasoning tying requirements to option].
+
+**Uncertainty acknowledgment**: I'm [confident/moderately confident/uncertain] because [explain reasoning]. Factors that could change my recommendation:
+- If traffic exceeds [X users], consider migrating from [PaaS] to [Cloud Platform]
+- If budget is constrained to $[Y]/month, consider [cheaper option]
+- If team gains DevOps expertise, [Cloud Platform] becomes more viable
+
+**Question**: "Which deployment environment do you prefer? (A/B/C/D or describe alternative)"
 
 🛑 WAIT FOR ANSWER
 

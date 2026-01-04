@@ -129,46 +129,118 @@ Based on criticality, recommend monitoring level:
 
 ---
 
-## Step 3: Error Tracking Design
+## Step 3: Error Tracking Design (Verbalized Sampling)
 
 ### Tool Selection
 
-**Ask user**: "Which error tracking tool do you prefer?"
+**Context**: Error tracking is essential for production apps - you can't fix bugs you don't know about.
 
-**Option A: Sentry** (RECOMMENDED for most apps)
-- **Pros**:
-  - Best-in-class error tracking
-  - Excellent stack traces with source maps
-  - Shows user context (what user did before error)
-  - Release tracking (know which deploy caused issues)
-  - Free tier: 5,000 errors/month
-- **Cons**:
-  - Can get expensive beyond free tier
-- **Cost**: Free tier, then $26+/month
-- **Docs**: https://docs.sentry.io
+**Generate Diverse Options**:
+Think deeply about diversity - ensure options represent different approaches (specialized SaaS vs cloud-native vs open-source).
 
-**Option B: Rollbar**
-- **Pros**:
-  - Similar to Sentry
-  - Good error grouping
-  - Telemetry tracking
-- **Cons**:
-  - Less popular than Sentry
-  - Fewer integrations
-- **Cost**: Free tier, then $12+/month
-- **Docs**: https://docs.rollbar.com
+**Option A: Sentry** (Confidence: **High** for most apps, **Medium** for very high error volume)
 
-**Option C: Platform-native** (CloudWatch, Azure Monitor, etc.)
-- **Pros**:
-  - Built into cloud platform
-  - No extra service
-  - Good if all-in on that cloud
-- **Cons**:
-  - Less feature-rich than Sentry
-  - Harder to use
-  - Vendor lock-in
-- **Cost**: Free tier, then pay-per-use
-- **Use when**: Already using AWS/Azure/GCP heavily
+**Best for**: Web apps, mobile apps, APIs, startups to mid-size companies
+
+**Pros**:
+- Best-in-class error tracking with excellent UX
+- Excellent stack traces with source maps (pinpoint exact code line)
+- Shows user context (breadcrumbs of what user did before error)
+- Release tracking (know which deploy caused issues)
+- Performance monitoring included (APM features)
+- Free tier: 5,000 errors/month (generous)
+- Supports 100+ languages/frameworks
+
+**Cons**:
+- Can get expensive beyond free tier ($26-100+/month)
+- Requires SDK integration in your code
+- SaaS only (no self-hosted option for free tier)
+
+**Avoid If**:
+- Very high error volume (100k+ errors/month = expensive)
+- Air-gapped environment (need self-hosted solution)
+- Budget is $0/month only (free tier is 5k events)
+
+**Reasoning**: I rate this **High confidence** because you mentioned "[reference their monitoring level]" and Sentry is industry standard. However, confidence drops to **Medium** if you expect "[very high error volume]" as costs scale with events ($26/month → $100+/month).
+
+**Cost**: Free (5k events/month), $26/month (team), $80+/month (business)
+
+**Reference**: https://docs.sentry.io
+
+---
+
+**Option B: Rollbar** (Confidence: **Medium** - good alternative but smaller ecosystem)
+
+**Best for**: Teams wanting Sentry-like features at lower cost
+
+**Pros**:
+- Similar feature set to Sentry (error grouping, releases, breadcrumbs)
+- Good error grouping algorithms
+- Telemetry tracking
+- Slightly cheaper than Sentry
+- Free tier available
+
+**Cons**:
+- Less popular than Sentry (smaller community, fewer tutorials)
+  - Fewer integrations with other tools
+- Less polished UI than Sentry
+
+**Avoid If**:
+- You need best-in-class UX (Sentry is better)
+- You rely on extensive integrations (Sentry has more)
+
+**Reasoning**: I rate this **Medium confidence** because while Rollbar is solid, Sentry's ecosystem is stronger. Confidence would be **High** if you explicitly stated "need cheaper than Sentry" and **Low** if you need maximum integrations.
+
+**Cost**: Free (5k events/month), $12/month (essentials), $49+/month (advanced)
+
+**Reference**: https://docs.rollbar.com
+
+---
+
+**Option C: Platform-Native (CloudWatch/Azure Monitor/GCP Error Reporting)** (Confidence: **Low** for most apps, **High** if all-in on cloud)
+
+**Best for**: Teams fully committed to one cloud provider, prefer fewer vendors
+
+**Pros**:
+- Built into cloud platform (no extra service to manage)
+- No separate bill (included in cloud costs)
+- Deep integration with cloud services
+- Good if already using cloud for everything
+
+**Cons**:
+- Less feature-rich than Sentry (basic error logging, not tracking)
+- Harder to use (complex UI, steep learning curve)
+- Vendor lock-in (tied to cloud provider)
+- No breadcrumbs or user context (just raw logs)
+- Difficult to correlate errors across services
+
+**Avoid If**:
+- You're not already heavily invested in AWS/Azure/GCP
+- You want best-in-class error tracking experience
+- Multi-cloud or cloud-agnostic strategy
+
+**Reasoning**: I rate this **Low confidence** for most teams because specialized tools like Sentry are far superior. However, confidence rises to **High** if you explicitly stated "[all-in on AWS]" and want to minimize vendors.
+
+**Cost**: Pay-per-use (varies by cloud), typically $5-50/month
+
+**Reference**: AWS CloudWatch, Azure Monitor, GCP Error Reporting
+
+---
+
+**Recommendation**:
+Based on your answers:
+- Monitoring level: [their answer]
+- Budget: [their answer]
+- Cloud platform: [their answer]
+
+I recommend **[Sentry/Rollbar/Platform-Native]** because [specific reasoning].
+
+**Uncertainty acknowledgment**: I'm [confident/moderately confident/uncertain] because [reasoning]. Factors that could change my recommendation:
+- If error volume exceeds 10k/month, consider cost implications
+- If using AWS heavily, CloudWatch may be sufficient
+- If budget is $0, free tiers of Sentry/Rollbar are viable
+
+**Question**: "Which error tracking tool do you prefer? (A/B/C)"
 
 🛑 WAIT FOR SELECTION
 

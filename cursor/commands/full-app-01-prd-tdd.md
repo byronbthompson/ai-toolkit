@@ -88,9 +88,154 @@ PROGRESSIVE PATH:
 - Recommend starting with [scenario] based on stated goals
 - User can decide to stop at any scenario if needs are met
 
-Present 2–4 scope options (Lean MVP / Standard / Ambitious / Enterprise) and recommend one based on scenario analysis.
-Ask ONE blocking question.
-No code changes.
+---
+
+## PHASE 2: SCOPE SELECTION (Verbalized Sampling)
+
+**Context**: Scope directly impacts time, cost, and complexity. Starting too ambitious risks never launching; starting too lean risks missing key requirements.
+
+**Generate Diverse Options**:
+Think deeply about diversity - ensure options represent different philosophies (lean startup vs complete product vs enterprise-grade).
+
+**Option A - Lean MVP** (Confidence: **High** for startups/validation, **Low** for established companies)
+
+**Best for**: Validating product-market fit, quick learning, budget-constrained startups
+
+**Scope**:
+- Core user workflow only (1-3 features)
+- Single user type (no roles/permissions)
+- Basic UI (functional, not polished)
+- Manual processes acceptable (email notifications, manual onboarding)
+- No advanced features (search, filtering, analytics, integrations)
+
+**Pros**:
+- Fastest time to market (2-4 weeks with AI assistance)
+- Minimal cost ($0-500 total infrastructure)
+- Maximum learning (validate assumptions quickly)
+- Easy to pivot (less code to change)
+
+**Cons**:
+- May feel incomplete to users
+- Limited scalability (technical debt accumulates)
+- Missing features users expect (search, notifications, etc.)
+- Harder to sell to enterprise customers
+
+**Avoid If**:
+- Established company with brand reputation to protect
+- Enterprise customers requiring complete features
+- Product competing with mature alternatives
+
+**Reasoning**: I rate this **High confidence** because you mentioned "[reference their goal: validation/learning]". Lean MVP maximizes learning/dollar. However, confidence drops to **Low** if you're an "[established company]" where incomplete product damages brand.
+
+**Time**: 2-4 weeks (AI-assisted: 8-16 hours planning + implementation)
+
+**Cost**: $0-500 (free tier hosting, minimal services)
+
+---
+
+**Option B - Standard Product** (Confidence: **High** for most products, **Medium** for competitive markets)
+
+**Best for**: Launching a complete product, competing with existing solutions, professional image
+
+**Scope**:
+- Complete core feature set (5-10 features)
+- Multiple user roles (admin, standard user)
+- Polished UI/UX (professional design)
+- Common features (search, filtering, sorting, notifications)
+- Basic integrations (email, auth, payment if needed)
+- Mobile responsive
+
+**Pros**:
+- Feels complete to users (professional product)
+- Competitive with existing solutions
+- Room to grow (proper architecture from start)
+- Suitable for paying customers
+
+**Cons**:
+- Longer time to market (6-12 weeks)
+- Higher initial cost ($500-2000 infrastructure + design)
+- More complexity (more features = more bugs)
+
+**Avoid If**:
+- Just validating idea (use Lean MVP instead)
+- Very competitive market requiring unique differentiator (add more features)
+- Budget is < $1000 total
+
+**Reasoning**: I rate this **High confidence** because you mentioned "[reference their stated scope/goals]". Standard Product balances completeness with speed. Confidence is **Medium** if you're in "[very competitive market]" where differentiation requires more features.
+
+**Time**: 6-12 weeks (AI-assisted: 16-28 hours planning + implementation)
+
+**Cost**: $500-2000 (hosting, design, email service, auth)
+
+---
+
+**Option C - Enterprise Grade** (Confidence: **Low** for most startups, **High** for B2B/compliance-heavy industries)
+
+**Best for**: Enterprise B2B, regulated industries (healthcare, finance), multi-tenant SaaS
+
+**Scope**:
+- Complete feature set (15-30 features)
+- Advanced user management (roles, permissions, SSO, SAML)
+- Enterprise features (audit logs, compliance, white-labeling, API)
+- High polish (custom design, animations, onboarding flows)
+- Integrations (Slack, webhooks, REST API, SDKs)
+- Security certifications (SOC2, HIPAA if needed)
+
+**Pros**:
+- Enterprise-ready from day one
+- Can charge premium prices ($$$ ARR potential)
+- Meets compliance requirements
+- Competitive in enterprise market
+
+**Cons**:
+- Very long time to market (3-6 months)
+- High cost ($5k-20k+ infrastructure, design, compliance)
+- Over-engineered for small customers (complexity burden)
+- Requires dedicated team (not solopreneur-friendly)
+
+**Avoid If**:
+- Targeting SMBs or consumers (overkill)
+- Pre-revenue stage (burn too much before validation)
+- Solo founder or small team (< 3 people)
+
+**Reasoning**: I rate this **Low confidence** for most startups because enterprise features are expensive pre-revenue. However, confidence rises to **High** if you explicitly stated "[targeting enterprise B2B]" or "[compliance-heavy industry like healthcare]".
+
+**Time**: 3-6 months (AI-assisted: 40-80 hours planning + implementation)
+
+**Cost**: $5k-20k+ (enterprise hosting, security, compliance, design)
+
+---
+
+**Recommendation**:
+Based on:
+- Your goal: [their answer]
+- Timeline: [their answer]
+- Budget: [their answer]
+- Target customer: [their answer]
+
+I recommend **Option [A/B/C]** because [specific reasoning].
+
+**Uncertainty acknowledgment**: I'm [confident/moderately confident/uncertain] because [reasoning]. Factors that could change my recommendation:
+- If timeline shortens to [X weeks], must use Lean MVP
+- If competing with mature product, may need Standard or Enterprise
+- If budget increases to $[Y], can add more features
+
+**Question**: "Which scope do you prefer? (A - Lean MVP / B - Standard / C - Enterprise)"
+
+🛑 WAIT FOR CONFIRMATION - Do not proceed until explicit choice is made
+
+Once confirmed, record decision in ${SPEC_PATH}09_DECISIONS.md with:
+- Scope chosen (Lean MVP/Standard/Enterprise)
+- Reasoning
+- Timeframe estimate
+- Budget estimate
+- Confidence score: [Low/Medium/High]
+
+---
+
+Present ONE blocking question if any ambiguity remains.
+
+No code changes at this stage - only documentation.
 
 ---
 **NEXT STEP**: When 01_PRD.md is complete and approved, run `full-app-02-architecture-tdd.md` to design the system architecture.

@@ -74,47 +74,112 @@ IMPACT ANALYSIS:
 
 ---
 
-## DECISION REQUIRED: Bug Fix Approach (Query First)
+## DECISION REQUIRED: Bug Fix Approach (Verbalized Sampling)
 
-**Context**: Before diving into analysis, confirm the approach based on severity and urgency.
+**Context**: Before diving into analysis, confirm the approach based on severity, urgency, and engineering principles. This decision affects time investment and long-term code quality.
+
+**Generate Diverse Options**:
+Think deeply about diversity - ensure options represent different tradeoff philosophies (proper engineering vs speed vs deferral).
 
 **Question**: "What is your preferred approach for this bug?"
 
-**Option A - Root Cause Analysis** (RECOMMENDED for most bugs)
-- **Why recommended**: Fixes the underlying issue, prevents recurrence, proper engineering
-- **Best for**: Medium/Low severity bugs, recurring issues, time available for proper fix
-- **Approach**: Trace signal flow from symptom to root cause (detailed layers below)
-- **Pros**:
-  - Fixes the real problem
-  - Prevents future similar bugs
-  - Improves code quality
-  - Better understanding of the system
-- **Cons**:
-  - Takes more time (thorough investigation)
-  - May require refactoring
-  - Might uncover additional issues
-- **Time**: 1-4 hours (depending on complexity)
+**Option A - Root Cause Analysis (TDD Required)** (Confidence: **High** for most bugs, **Medium** for time-critical fixes)
 
-**Option B - Quick Symptom Fix** (for urgent hotfixes)
-- **Best for**: Critical/High severity production bugs, immediate mitigation needed
-- **Approach**: Fix the symptom where it manifests, defer root cause analysis
-- **Pros**:
-  - Fast resolution (minutes to 1 hour)
-  - Stops immediate user pain
-  - Reduces business impact quickly
-- **Cons**:
-  - Doesn't fix underlying issue (may recur)
-  - Technical debt created
-  - Band-aid solution
-- **Requirement**: MUST create follow-up ticket for root cause fix
-- **Time**: 15-60 minutes
+**Best for**: Medium/Low severity bugs, recurring issues, when proper engineering matters more than speed
 
-**Option C - Workaround Only** (for low-priority bugs)
-- **Best for**: Low severity, edge cases, deprecated features, planned replacement
-- **Approach**: Document workaround, no code changes
-- **Pros**: Zero development time
-- **Cons**: Users must work around issue, bug remains in codebase
-- **Time**: 5-15 minutes (documentation only)
+**Pros**:
+- Fixes the real problem, not just the symptom
+- Prevents future similar bugs (long-term value)
+- Improves code quality and system understanding
+- Creates regression test (prevents reintroduction)
+- Proper TDD: Write failing test first, then fix
+
+**Cons**:
+- Takes more time (thorough investigation: 1-4 hours)
+- May require refactoring (expands scope)
+- Might uncover additional issues (scope creep risk)
+- Requires understanding system architecture
+
+**Avoid If**:
+- Production is down RIGHT NOW (use Option B, then follow up with A)
+- Bug affects deprecated feature being removed soon
+- Deadline is today and bug is low-severity
+
+**Reasoning**: I rate this **High confidence** because you mentioned "[reference bug severity: medium]" and proper root cause fixes prevent recurrence. However, confidence drops to **Medium** if "[time-critical production issue]" where Option B is faster.
+
+**Time**: 1-4 hours (investigation + test + fix + verification)
+
+**TDD Requirement**: ALWAYS write regression test FIRST, then implement fix
+
+---
+
+**Option B - Quick Symptom Fix (Hotfix Pattern)** (Confidence: **High** for critical production bugs, **Low** for long-term quality)
+
+**Best for**: Critical/High severity production bugs, immediate user pain, business impact
+
+**Pros**:
+- Fast resolution (15-60 minutes)
+- Stops immediate user/business pain quickly
+- Reduces SLA breach risk
+- Can deploy quickly (minimal testing needed)
+
+**Cons**:
+- Doesn't fix underlying issue (bug may recur in different form)
+- Creates technical debt (band-aid solution)
+- Risk of introducing new bugs (no deep analysis)
+- Must create follow-up ticket for proper fix (technical debt tracking)
+
+**Avoid If**:
+- Bug is not time-critical (use Option A for proper fix)
+- You have time for root cause analysis (1-4 hours available)
+- Bug has recurred multiple times (symptoms fixes haven't worked)
+
+**Reasoning**: I rate this **High confidence** because you mentioned "[reference severity: critical/high]" requiring immediate mitigation. However, confidence is **Low** for long-term code quality as this creates technical debt. This is a **temporary** solution requiring follow-up.
+
+**Time**: 15-60 minutes (symptom fix only)
+
+**REQUIREMENT**: MUST create follow-up ticket for root cause analysis (Option A)
+
+---
+
+**Option C - Workaround Only (No Code Changes)** (Confidence: **Medium** for low-priority/deprecated features only)
+
+**Best for**: Low severity edge cases, deprecated features, planned feature replacement
+
+**Pros**:
+- Zero development time (5-15 minutes for documentation)
+- No risk of introducing new bugs (no code changes)
+- Allows focus on higher-priority work
+
+**Cons**:
+- Users must work around issue (poor UX)
+- Bug remains in codebase indefinitely
+- May accumulate if overused (death by a thousand cuts)
+- Support burden (must document and communicate workaround)
+
+**Avoid If**:
+- Bug affects common user workflow (frustration accumulates)
+- Workaround is complex or non-obvious
+- Bug causes data loss or security issue
+
+**Reasoning**: I rate this **Medium confidence** because while documenting workarounds is pragmatic for low-priority bugs, overuse degrades product quality. Confidence would be **High** if you explicitly stated "[deprecated feature being removed next quarter]" and **Low** if bug affects active feature.
+
+**Time**: 5-15 minutes (documentation only)
+
+---
+
+**Recommendation**:
+Based on:
+- Bug severity: [their answer]
+- Urgency: [their answer]
+- Time available: [their answer]
+
+I recommend **Option [A/B/C]** because [specific reasoning].
+
+**Uncertainty acknowledgment**: I'm [confident/moderately confident/uncertain] because [reasoning]. Factors that could change my recommendation:
+- If production is down NOW, use Option B (hotfix) then follow up with Option A
+- If bug recurs frequently, must use Option A (root cause fix)
+- If feature is deprecated, Option C is acceptable
 
 **Question**: "Which approach? (A/B/C)"
 
