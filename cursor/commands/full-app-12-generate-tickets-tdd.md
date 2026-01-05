@@ -1,6 +1,29 @@
-# Generate Tickets from Specs
+# Generate Tickets from Specs (Agile Gold Path)
 
-**IMPORTANT**: This is an on-demand command that generates tickets/issues from your planning specs. Run this AFTER BUILD_MAP is complete and BEFORE or DURING implementation.
+**PHILOSOPHY**: Fast validation through action, not questions. Create → Review → Refine.
+
+**IMPORTANT**: This is an on-demand command that generates tickets/issues from your planning specs. Run this AFTER BUILD_MAP is complete.
+
+---
+
+## AGILE GOLD PATH APPROACH
+
+**Traditional Approach** (slow validation):
+```
+Ask 10 questions → Generate preview → Ask more questions → Create all tickets → Hope it's right
+```
+
+**Agile Gold Path** (fast validation):
+```
+Quick setup → Create 1 test ticket → Validate integration → Create remaining tickets → Refine as needed
+```
+
+**Benefits**:
+- ✅ See real ticket in < 2 minutes (not 10+ minutes of questions)
+- ✅ Validate integration works BEFORE bulk creation
+- ✅ Fail-fast if credentials/platform issues
+- ✅ Iterative refinement (create, review, adjust)
+- ✅ Action-oriented prompts (not endless questions)
 
 ---
 
@@ -14,793 +37,511 @@ If SPEC_PATH not found:
 
 ---
 
-## STEP 2: LOAD ALL SPEC FILES
+## STEP 2: LOAD BUILD_MAP
 
-Read the following files from ${SPEC_PATH}:
-- **00_START_HERE.md** - Project context, constraints
-- **01_PRD.md** - Features, acceptance criteria, scenarios
-- **02_ARCHITECTURE.md** - Technical stack, architecture decisions
-- **03_DATA_MODEL.md** - Database schema, entities
-- **04_API_CONTRACT.md** - API endpoints, contracts
-- **05_UI_UX.md** - UI/UX requirements (if applicable)
-- **07_SECURITY_NFR.md** - Security requirements
-- **08_TESTING_RELEASE.md** - Testing approach
-- **09_DECISIONS.md** - Key decisions and rationale
-- **10_BUILD_MAP.md** - Milestones breakdown (PRIMARY SOURCE)
+Read ${SPEC_PATH}10_BUILD_MAP.md
 
-If any critical files are missing (especially BUILD_MAP.md):
-- Error: "Cannot generate tickets without BUILD_MAP.md. Please complete planning first."
+If BUILD_MAP.md missing:
+- Error: "Cannot generate tickets without BUILD_MAP.md. Please complete planning first (run full-app-10-build-map-tdd.md)."
 - Exit
 
----
-
-## STEP 3: PARSE MILESTONES
-
-From BUILD_MAP.md, extract:
-- Milestone number and title
-- Milestone description
-- Acceptance criteria per milestone
-- Time estimate (AI-assisted)
+Parse from BUILD_MAP:
+- Milestone count
+- Milestone titles and descriptions
+- Time estimates (AI-assisted)
 - Dependencies between milestones
-- Quality gates
-
-Example parsing:
-```
-MILESTONE 1: Project Setup & Environment (15-25 min)
-→ Milestone title: "Project Setup & Environment"
-→ Estimate: "15-25 min"
-→ Dependencies: None (first milestone)
-```
 
 ---
 
-## STEP 4: GENERATE USER STORIES PER MILESTONE
+## STEP 3: QUICK SETUP (Action-Oriented)
 
-For EACH milestone, determine story breakdown strategy:
+**Present user with action choices** (not questions):
 
-### Strategy Decision (Auto-detect based on milestone size):
+```
+📋 TICKET GENERATION SETUP
 
-**IF milestone is small (< 1 hour estimate)**:
-- Create 1 user story = 1 milestone
-- No subtasks needed
-- **Example**: "MILESTONE 1: Project Setup" → "Story 1: Set up project environment"
+I found [N] milestones in your BUILD_MAP.
 
-**IF milestone is medium (1-3 hours estimate)**:
-- Create 2-4 user stories per milestone (feature-based breakdown)
-- Subtasks optional
-- **Example**: "MILESTONE 3: User Authentication"
-  - Story 3.1: User Registration
-  - Story 3.2: User Login
-  - Story 3.3: Password Reset
+What would you like to do?
 
-**IF milestone is large (> 3 hours estimate)**:
-- Create 3-6 user stories per milestone (hybrid breakdown)
-- Include subtasks for each story (layer-based: API, UI, Tests)
-- **Example**: "MILESTONE 5: Dashboard with Real-time Updates"
-  - Story 5.1: Dashboard Data API
-    - Subtask: Design GraphQL schema
-    - Subtask: Implement resolvers
-    - Subtask: Write API tests
-  - Story 5.2: Dashboard UI Components
-    - Subtask: Create dashboard layout
-    - Subtask: Build data visualization widgets
-    - Subtask: Write component tests
-  - Story 5.3: Real-time WebSocket Integration
-    - Subtask: Set up WebSocket server
-    - Subtask: Implement client-side listeners
-    - Subtask: Write integration tests
+A. 🚀 FAST START (Recommended for first-time)
+   → Create 1 test ticket in Linear to validate setup
+   → Takes < 2 minutes
+   → Then create remaining tickets if successful
 
-### Story Content Generation:
+B. 💪 FULL CREATE (Skip validation)
+   → Create all [N] milestones + stories immediately
+   → Assumes integration already validated
+   → Use if you've done this before
 
-For each user story, generate:
+C. 📤 EXPORT ONLY (No integration)
+   → Generate markdown + JSON files only
+   → No API calls, no ticket creation
+   → Use for manual import or documentation
 
-**Title**: `[Milestone #.Story #] [Feature Name]`
-- Example: `[M3.1] User Registration`
-
-**Description** (Classic Agile format):
-```markdown
-**As a** [user type from PRD]
-**I want to** [action/capability]
-**So that** [benefit/value]
+D. ❌ CANCEL
+   → Exit without creating tickets
 ```
 
-**Acceptance Criteria** (from PRD + BUILD_MAP):
-```markdown
-- [ ] [Criterion 1 from specs]
-- [ ] [Criterion 2 from specs]
-- [ ] [Criterion 3 from specs]
-- [ ] Quality gate: All tests pass
-- [ ] Quality gate: Linter passes
-- [ ] Quality gate: [Any additional gates from 08_TESTING_RELEASE.md]
+🛑 **WAIT FOR CHOICE** → Store as WORKFLOW_MODE
+
+**IF D (Cancel)**: Exit
+
+**IF C (Export Only)**: Skip to STEP 8 (Export)
+
+**IF B (Full Create)**: Go to STEP 5 (Full Create)
+
+**IF A (Fast Start)**: Continue to STEP 4
+
+---
+
+## STEP 4: FAST START - Create Test Ticket
+
+**Purpose**: Validate integration works BEFORE creating all tickets (fail-fast)
+
+### 4.1: Choose Platform (Quick)
+
+**Ask**: "Which platform for tickets?"
+
+```
+1. Linear (via Linear MCP)
+2. GitHub Issues (via gh CLI)
+3. Jira (via Jira MCP)
 ```
 
-**Technical Details**:
-```markdown
-**Architecture**: [Relevant info from 02_ARCHITECTURE.md]
-**Database**: [Relevant schema from 03_DATA_MODEL.md]
-**API**: [Relevant endpoints from 04_API_CONTRACT.md]
-**Security**: [Relevant requirements from 07_SECURITY_NFR.md]
-**Files to modify/create**: [Estimated based on architecture]
+🛑 **WAIT** → Store as PLATFORM
+
+### 4.2: Create Test Ticket
+
+**Say**: "Creating test ticket for Milestone 1 to validate [PLATFORM] integration..."
+
+**Create minimal test ticket**:
+- Title: `[TEST] Milestone 1: [Title from BUILD_MAP]`
+- Description: `Test ticket from AI agent - validating integration`
+- Labels: `test`, `ai-generated`
+- No assignment, no sprint, minimal metadata
+
+**Attempt creation via MCP/API**
+
+**IF SUCCESS**:
+```
+✅ Test ticket created successfully!
+
+Ticket URL: [direct link to ticket]
+Ticket ID: [platform ticket ID]
+
+Integration validated! Ready to create remaining tickets.
+
+What would you like to do?
+
+A. ✅ CREATE ALL TICKETS
+   → Create tickets for all [N] milestones
+   → Use same platform ([PLATFORM])
+   → Minimal metadata (can refine later in platform)
+
+B. ⚙️ CREATE WITH METADATA
+   → Set tags, sprint, assignee before creating
+   → 3-4 quick questions, then create all
+
+C. 🗑️ DELETE TEST & CANCEL
+   → Delete test ticket and exit
+   → Use if you want to adjust BUILD_MAP first
 ```
 
-**Dependencies**:
-```markdown
-**Blocks**: [Stories that depend on this one]
-**Blocked by**: [Stories this depends on]
-**Related to**: [Milestone dependencies from BUILD_MAP]
+🛑 **WAIT FOR CHOICE** → Store as NEXT_ACTION
+
+**IF C (Delete Test & Cancel)**:
+- Delete test ticket via API
+- Say: "Test ticket deleted. Exiting."
+- Exit
+
+**IF A (Create All Tickets)**:
+- Delete test ticket
+- Set METADATA_MODE = "minimal"
+- Go to STEP 6 (Generate Tickets)
+
+**IF B (Create With Metadata)**:
+- Delete test ticket
+- Set METADATA_MODE = "enhanced"
+- Go to STEP 5 (Metadata Setup)
+
+**IF FAILURE** (test ticket creation failed):
+```
+❌ Test ticket creation failed!
+
+Error: [error message from platform]
+
+Common issues:
+- Linear MCP not configured: Run `mcp install linear`
+- GitHub CLI not authenticated: Run `gh auth login`
+- Jira MCP not installed: Check MCP configuration
+- Invalid credentials or permissions
+
+What would you like to do?
+
+A. 🔄 TRY DIFFERENT PLATFORM
+   → Try GitHub/Jira/Linear instead
+
+B. 📤 EXPORT ONLY
+   → Generate markdown/JSON files instead
+   → No ticket creation
+
+C. ❌ CANCEL
+   → Exit and fix integration first
 ```
 
-**Estimate**:
-```markdown
-**AI-assisted time**: [X-Y hours] (from BUILD_MAP milestone estimate / story count)
-**Manual equivalent**: [W-Z hours] (3-5x slower)
-**Complexity**: [Simple/Moderate/Complex from 00_START_HERE.md]
+🛑 **WAIT** → Handle choice
+
+---
+
+## STEP 5: METADATA SETUP (Enhanced Mode Only)
+
+**Only runs if user chose "Create With Metadata" in Step 4**
+
+**Say**: "Quick metadata setup (3-4 questions)..."
+
+### 5.1: Tags/Labels
+
+**Ask**: "Additional tags for all tickets? (comma-separated or 'none')"
+
+**Context**: Auto-generated tags based on tech stack. Add custom like `sprint-5`, `team-alpha`.
+
+**Example**: `sprint-5, high-priority`
+
+🛑 **WAIT** → Store as CUSTOM_TAGS
+
+### 5.2: Sprint/Cycle
+
+**Ask**: "Assign to sprint/cycle?"
+
+```
+A. Specific sprint/cycle (enter name/ID)
+B. Backlog (no sprint)
 ```
 
-**Labels/Tags** (auto-generated):
-```markdown
-**Auto-tags**:
-- `milestone-[N]` (e.g., `milestone-3`)
-- `[tech-stack]` (e.g., `python`, `react`, `fastapi`)
-- `[area]` (e.g., `backend`, `frontend`, `database`, `infrastructure`)
-- `[type]` (e.g., `feature`, `bug`, `chore`, `docs`)
+🛑 **WAIT** → Store as SPRINT
+
+### 5.3: Assignment
+
+**Ask**: "Assign tickets?"
+
+```
+A. Assign all to me
+B. Assign to specific user (enter username)
+C. Leave unassigned
 ```
 
----
+🛑 **WAIT** → Store as ASSIGNMENT
 
-## STEP 5: GENERATE PREVIEW (Markdown)
+**Say**: "Metadata setup complete. Creating tickets..."
 
-Generate ${SPEC_PATH}TICKETS_PREVIEW.md with:
-
-```markdown
-# Ticket Generation Preview
-
-**Project**: [From 00_START_HERE.md]
-**SPEC_PATH**: ${SPEC_PATH}
-**Total Milestones**: [N]
-**Total Stories**: [M]
-**Generated**: [Current date/time]
+Continue to STEP 6
 
 ---
 
-## Milestone 1: [Title] (Parent Ticket)
+## STEP 6: GENERATE TICKETS
 
-**Description**: [From BUILD_MAP]
-**Estimate**: [X-Y hours AI-assisted]
-**Dependencies**: None (or list)
-**Tags**: `milestone`, `milestone-1`, [area tags]
+### 6.1: Parse Milestones & Generate Stories
 
-### Story 1.1: [Title]
+**For each milestone in BUILD_MAP**:
 
-**As a** [user type]
-**I want to** [action]
-**So that** [benefit]
+**Auto-detect breakdown strategy** based on time estimate:
 
-**Acceptance Criteria**:
-- [ ] [Criterion 1]
-- [ ] [Criterion 2]
+- **Small milestone** (< 1 hour): Create 1 story = 1 milestone
+- **Medium milestone** (1-3 hours): Create 2-4 stories
+- **Large milestone** (> 3 hours): Create 3-6 stories with subtasks
 
-**Technical Details**:
-- Architecture: [Notes]
-- Files: [List]
+**Generate story content**:
+- Title: `[M{num}.{story}] {Feature Name}`
+- Description: As a... I want... So that... (from PRD + BUILD_MAP)
+- Acceptance Criteria: From BUILD_MAP + PRD
+- Estimate: AI-assisted time (from BUILD_MAP)
+- Labels: Auto-generated + custom tags
+- Dependencies: Auto-detected from BUILD_MAP
 
-**Dependencies**:
-- Blocked by: None
-- Blocks: Story 2.1
+### 6.2: Show Progress
 
-**Estimate**: [X min] AI-assisted
-**Tags**: `milestone-1`, `feature`, `backend`
+**As tickets are created, show real-time progress**:
 
----
+```
+Creating tickets...
 
-[Repeat for all milestones and stories]
-
----
-
-## Dependency Graph
-
-```mermaid
-graph TD
-    M1[Milestone 1] --> M2[Milestone 2]
-    M2 --> M3[Milestone 3]
-    S1.1[Story 1.1] --> S2.1[Story 2.1]
-    S2.1 --> S3.1[Story 3.1]
-    S2.2[Story 2.2] --> S3.2[Story 3.2]
+✅ Milestone 1: Project Setup (1 story created)
+✅ Milestone 2: Database Setup (2 stories created)
+⏳ Milestone 3: User Auth (creating...)
 ```
 
----
-
-## Summary Statistics
-
-- **Total Milestones**: [N]
-- **Total Stories**: [M]
-- **Total Subtasks**: [K] (if applicable)
-- **Total Estimated Time (AI-assisted)**: [X-Y hours]
-- **Manual Equivalent**: [W-Z hours] (3-5x slower)
-- **Complexity**: [Simple/Moderate/Complex/Very Complex]
-```
-
-Present preview to user:
-**"I've generated a preview of [M] user stories across [N] milestones. Review ${SPEC_PATH}TICKETS_PREVIEW.md"**
-
-🛑 **WAIT FOR USER APPROVAL**
-
-Ask: "Does this ticket structure look correct? (yes/no/modify)"
-
-**IF modify**: Ask what needs to change, regenerate preview, wait for approval again
-**IF no**: Exit without creating tickets
-**IF yes**: Continue to Step 6
+**This provides fast feedback, not waiting until end**
 
 ---
 
-## STEP 6: QUERY INTEGRATION TARGET
-
-Ask user: **"Where should these tickets be created?"**
-
-Present options:
-- **Option A - Linear** (via Linear MCP server)
-  - Native milestone support
-  - Issue linking to parent milestones
-  - Custom fields support
-  - Dependencies (blocks/blocked by)
-
-- **Option B - GitHub Issues** (via gh CLI or GitHub MCP)
-  - Native milestone support
-  - Issue references for dependencies
-  - Labels for categorization
-  - Projects integration available
-
-- **Option C - Jira** (via Jira MCP if available)
-  - Epic/Story/Task hierarchy
-  - Sprint assignment
-  - Custom fields support
-
-- **Option D - Export Only** (no integration)
-  - Generate markdown files only
-  - Generate JSON export for manual import
-  - No API calls
-
-- **Option E - Multiple Targets** (create in multiple systems)
-  - Example: Linear + Export markdown for documentation
-
-- **Option F - Cancel**
-  - Exit without creating tickets
-
-🛑 **WAIT FOR ANSWER**
-
-Store answer as INTEGRATION_TARGET.
-
-**IF Option F (Cancel)**: Exit gracefully
-
-**IF Option D (Export Only)**:
-- Save TICKETS_PREVIEW.md as TICKETS.md
-- Generate TICKETS.json with all ticket data
-- Skip to Step 10 (confirmation)
-
-**IF Option A, B, C, or E**: Continue to Step 7
-
----
-
-## STEP 7: QUERY TICKET METADATA
-
-**IMPORTANT**: Ask these questions ONE AT A TIME (not all at once).
-
-### Question 1: Labels/Tags
-
-**Ask**: "What additional labels/tags should be applied to all tickets?"
-
-**Context**: "I've auto-generated tags based on tech stack and milestone. You can add custom tags like 'sprint-5', 'high-priority', 'team-alpha', etc."
-
-**Format**: Comma-separated list or "none" for auto-generated only
-
-**Example input**: `sprint-5, high-priority, needs-review`
-
-🛑 WAIT FOR ANSWER → Store as CUSTOM_TAGS
-
----
-
-### Question 2: Sprint/Cycle Assignment
-
-**Ask**: "Should these tickets be assigned to a sprint/cycle?"
-
-**Options**:
-- **Option A**: Specify sprint/cycle name or ID (e.g., "Sprint 5" or "Cycle 2025-01")
-- **Option B**: Assign to backlog (no sprint)
-- **Option C**: Ask per milestone (different milestones to different sprints)
-
-**IF Linear**: Use cycle ID or name
-**IF GitHub**: Use milestone or project board
-**IF Jira**: Use sprint name
-
-🛑 WAIT FOR ANSWER → Store as SPRINT_ASSIGNMENT
-
----
-
-### Question 3: User Assignment
-
-**Ask**: "Should these tickets be assigned to specific users?"
-
-**Options**:
-- **Option A**: Assign all to one user (enter username)
-- **Option B**: Leave unassigned (assign later)
-- **Option C**: Assign per milestone (different owners)
-- **Option D**: Assign to team (if platform supports teams)
-
-**IF Linear**: Use Linear username or email
-**IF GitHub**: Use GitHub username
-**IF Jira**: Use Jira account ID or email
-
-🛑 WAIT FOR ANSWER → Store as USER_ASSIGNMENT
-
----
-
-### Question 4: Priority
-
-**Ask**: "What priority should these tickets have?"
-
-**Options**:
-- **Option A**: Derive from specs (use complexity: Simple=Low, Moderate=Medium, Complex=High, Very Complex=Urgent)
-- **Option B**: Set all to same priority (Urgent/High/Medium/Low)
-- **Option C**: Set per milestone (ask for each)
-
-**Default**: Option A (derive from complexity)
-
-🛑 WAIT FOR ANSWER → Store as PRIORITY_STRATEGY
-
----
-
-### Question 5: Team Assignment (if applicable)
-
-**Ask**: "Should these tickets be assigned to a specific team?"
-
-**Options**:
-- **Option A**: Assign to team (enter team name)
-- **Option B**: No team assignment
-
-**Only ask if platform supports teams (Linear, Jira)**
-
-🛑 WAIT FOR ANSWER → Store as TEAM_ASSIGNMENT
-
----
-
-### Question 6: Custom Fields (if applicable)
-
-**Ask**: "Are there any custom fields to set?"
-
-**Context**: "Linear and Jira support custom fields. Examples: 'Customer Impact', 'Technical Debt', 'Risk Level', etc."
-
-**Options**:
-- **Option A**: No custom fields
-- **Option B**: Specify custom fields (key-value pairs)
-
-**Format**: `field_name:value, field_name2:value2`
-
-**Example**: `customer_impact:high, technical_debt:low`
-
-🛑 WAIT FOR ANSWER → Store as CUSTOM_FIELDS
-
----
-
-## STEP 8: CREATE TICKETS VIA MCP/API
+## STEP 7: CREATE TICKETS VIA PLATFORM
 
 ### For Linear (via Linear MCP):
 
 **Process**:
-1. **Create Milestones** (use Linear milestone/project CRUD):
-   ```
-   For each milestone in BUILD_MAP:
-     - Create milestone in Linear
-     - Set title, description, estimate
-     - Store milestone ID for linking issues
-   ```
-
-2. **Create Issues** (linked to milestones):
-   ```
-   For each user story:
-     - Create issue in Linear
-     - Link to parent milestone (use milestone ID)
-     - Set description (As a... I want... So that...)
-     - Add acceptance criteria as checklist
-     - Set estimate (AI-assisted time)
-     - Add labels (auto-generated + custom)
-     - Assign to sprint/cycle (if specified)
-     - Assign to user (if specified)
-     - Set priority
-     - Set custom fields
-     - Store issue ID
-   ```
-
-3. **Create Subtasks** (if hybrid breakdown used):
-   ```
-   For each subtask:
-     - Create as child issue or checklist item
-     - Link to parent story
-     - Set estimate (portion of story estimate)
-   ```
-
-4. **Link Dependencies**:
-   ```
-   For each dependency relationship:
-     - Use Linear "blocks" relationship
-     - Link issue A blocks issue B
-     - Link issue C blocked by issue D
-   ```
+1. Create milestone (project or parent issue)
+2. Create stories linked to milestone
+3. Set metadata (labels, sprint, assignee)
+4. Link dependencies (blocks/blocked by)
 
 **Error Handling**:
-- If MCP call fails, log error and continue with next ticket
+- If ticket fails, log error and continue
 - Track failed tickets for retry
-- After all attempts, show summary of successes/failures
+- Show summary at end
 
----
-
-### For GitHub Issues (via gh CLI or MCP):
+### For GitHub Issues (via gh CLI):
 
 **Process**:
-1. **Create Milestones**:
-   ```bash
-   gh issue milestone create "Milestone 1: [Title]" \
-     --description "[Description]" \
-     --due-date [Optional]
-   ```
+1. Create milestone: `gh issue milestone create`
+2. Create issues linked to milestone
+3. Add labels, assignee
+4. Link dependencies via issue references
 
-2. **Create Issues**:
-   ```bash
-   gh issue create \
-     --title "[M3.1] User Registration" \
-     --body "[Full description with acceptance criteria]" \
-     --milestone "Milestone 3" \
-     --label "milestone-3,feature,backend" \
-     --assignee "@me" (or specified user)
-   ```
-
-3. **Link Dependencies** (via issue references):
-   - Add "Blocks #123" in issue description
-   - Add "Blocked by #124" in issue description
-
-4. **Add to Project Board** (if specified):
-   ```bash
-   gh project item-add [project-id] --issue [issue-id]
-   ```
-
----
-
-### For Jira (via Jira MCP if available):
+### For Jira (via Jira MCP):
 
 **Process**:
-1. **Create Epics** (milestones):
-   - Use Jira API to create epic
-   - Set epic name, description, estimate
-
-2. **Create Stories**:
-   - Create story under epic
-   - Set description, acceptance criteria
-   - Link to epic
-
-3. **Create Subtasks**:
-   - Create subtask under story
-
-4. **Set Dependencies**:
-   - Use "blocks" link type
+1. Create epic (milestone)
+2. Create stories under epic
+3. Set sprint, assignee
+4. Link dependencies
 
 ---
 
-### For Export Only:
+## STEP 8: EXPORT (if Export Only mode)
 
-**Process**:
-1. Save ${SPEC_PATH}TICKETS.md (final version of preview)
-2. Generate ${SPEC_PATH}TICKETS.json:
-   ```json
-   {
-     "generated": "2026-01-02T12:00:00Z",
-     "spec_path": "/specs/AUTH-101/",
-     "milestones": [
-       {
-         "id": "M1",
-         "title": "Project Setup & Environment",
-         "description": "...",
-         "estimate_hours": "0.25-0.42",
-         "stories": [
-           {
-             "id": "M1.1",
-             "title": "Set up project environment",
-             "user_type": "developer",
-             "action": "set up project environment",
-             "benefit": "can start implementing features",
-             "acceptance_criteria": [...],
-             "technical_details": {...},
-             "dependencies": {...},
-             "estimate_hours": "0.25-0.42",
-             "tags": ["milestone-1", "chore", "infrastructure"],
-             "priority": "medium",
-             "subtasks": []
-           }
-         ]
-       }
-     ],
-     "summary": {
-       "total_milestones": 8,
-       "total_stories": 15,
-       "total_estimate_hours": "6-11"
-     }
-   }
-   ```
+**Generate files**:
 
-3. Generate ${SPEC_PATH}TICKETS.csv for spreadsheet import:
-   ```csv
-   Milestone,Story,Title,Description,Acceptance Criteria,Estimate (hours),Tags,Priority,Dependencies
-   M1,M1.1,"[M1.1] Setup Environment","As a developer...","- [ ] Git initialized...",0.25-0.42,"milestone-1,chore",Medium,"None"
-   ```
+1. **${SPEC_PATH}TICKETS.md** - Full ticket details in markdown
+2. **${SPEC_PATH}TICKETS.json** - Machine-readable export
+3. **${SPEC_PATH}TICKETS.csv** - Spreadsheet import format
+
+**Say**:
+```
+✅ Export complete!
+
+Files created:
+- ${SPEC_PATH}TICKETS.md (human-readable)
+- ${SPEC_PATH}TICKETS.json (machine-readable)
+- ${SPEC_PATH}TICKETS.csv (spreadsheet import)
+
+You can now manually import these into your ticketing system.
+```
+
+Exit
 
 ---
 
-## STEP 9: SAVE TICKET REFERENCES
+## STEP 9: SAVE REFERENCES & CONFIRM
 
-Create ${SPEC_PATH}TICKETS_CREATED.md to track created tickets:
+**Create ${SPEC_PATH}TICKETS_CREATED.md**:
 
 ```markdown
 # Created Tickets
 
-**Integration**: [Linear/GitHub/Jira]
+**Platform**: [Linear/GitHub/Jira]
 **Created**: [Date/Time]
-**Created by**: AI Agent (Claude/Cursor)
-
----
+**Workflow**: [Fast Start/Full Create/Export]
 
 ## Milestone 1: [Title]
 
-**Ticket ID**: [Linear ID or GitHub milestone #]
-**URL**: [Direct link to milestone]
-**Status**: Open
+**Milestone ID**: [ID]
+**URL**: [Link]
 
 ### Story 1.1: [Title]
-
-**Ticket ID**: [Issue ID]
-**URL**: [Direct link to issue]
+**Story ID**: [ID]
+**URL**: [Link]
 **Status**: Open
-**Assigned to**: [Username or "Unassigned"]
-**Labels**: [List of tags]
-**Dependencies**: Blocks [ID], Blocked by [ID]
+**Assigned**: [User or Unassigned]
 
 ---
 
-[Repeat for all created tickets]
-
----
+[Repeat for all tickets]
 
 ## Summary
 
-- **Total Milestones Created**: [N]
-- **Total Stories Created**: [M]
-- **Total Subtasks Created**: [K]
-- **Failed to Create**: [X] (see error log below)
+- Total Milestones: [N]
+- Total Stories: [M]
+- Failed: [X] (see errors below)
 
-## Errors (if any)
+## Errors
 
-- Story [ID]: [Error message]
-- [Retry instructions]
+[List any failed tickets]
 ```
 
-**IMPORTANT**: This file provides traceability between specs and tickets.
-
----
-
-## STEP 10: CONFIRMATION MESSAGE
-
-Display success message:
+**Show confirmation**:
 
 ```
 ✅ Ticket generation complete!
 
 Summary:
-- Milestones created: [N]
-- Stories created: [M]
-- Subtasks created: [K] (if applicable)
-- Integration: [Linear/GitHub/Jira/Export Only]
-- Total estimate: [X-Y hours] AI-assisted
+- ✅ [M] stories created across [N] milestones
+- 📊 Platform: [Linear/GitHub/Jira]
+- ⏱️ Total estimate: [X-Y hours] AI-assisted
+- ❌ [F] failed (see TICKETS_CREATED.md)
 
-View created tickets:
-- ${SPEC_PATH}TICKETS_CREATED.md (ticket IDs and URLs)
-- ${SPEC_PATH}TICKETS_PREVIEW.md (full preview)
-- ${SPEC_PATH}TICKETS.json (export data)
+📋 View tickets:
+- ${SPEC_PATH}TICKETS_CREATED.md (IDs and URLs)
 
-[IF Integration used]:
-Direct links:
-- Milestone 1: [URL]
-- Milestone 2: [URL]
-...
+🔗 Direct links:
+[List milestone URLs]
 
-[IF errors occurred]:
-⚠️ Warning: [X] tickets failed to create. See TICKETS_CREATED.md for details.
+💡 Next steps:
+1. Review tickets in [platform]
+2. Refine in platform (priorities, estimates, assignments)
+3. Start implementation: full-app-11-implement-milestone-n.md
 
-Next steps:
-1. Review created tickets in [Linear/GitHub/Jira]
-2. Adjust priorities, assignments, or estimates as needed
-3. Start implementation with full-app-11-implement-milestone-n.md
+[IF failures]:
+⚠️ Some tickets failed to create. See TICKETS_CREATED.md for details.
+Retry? (yes/no)
 ```
 
----
-
-## ADDITIONAL FEATURES
-
-### Re-run / Update Support
-
-If TICKETS_CREATED.md already exists:
-
-**Ask**: "Tickets were previously created. What would you like to do?"
-
-**Options**:
-- **Option A**: Update existing tickets (sync changes from specs)
-- **Option B**: Create new tickets (ignore existing)
-- **Option C**: Cancel
-
-**IF Option A (Update)**:
-- Read existing ticket IDs from TICKETS_CREATED.md
-- Compare current specs with previous generation
-- Update ticket descriptions, acceptance criteria, estimates if changed
-- Add comment to ticket: "Updated by AI agent on [date] - specs changed"
+🛑 **WAIT** (if failures) → Offer retry
 
 ---
 
-### Dependency Auto-Linking
+## STEP 10: ITERATIVE REFINEMENT (Optional)
 
-**Auto-detect dependencies from BUILD_MAP**:
+**After tickets are created, user can**:
 
-Example BUILD_MAP:
+A. **Refine in platform** (recommended)
+   - Adjust priorities, estimates, assignments directly in Linear/GitHub/Jira
+   - More efficient than regenerating
+
+B. **Update from specs**
+   - If BUILD_MAP changes, re-run this command
+   - Will detect existing tickets (from TICKETS_CREATED.md)
+   - Offer to update existing or create new
+
+C. **Export for documentation**
+   - Even if tickets already in Linear, can export markdown/JSON
+   - Useful for documentation or backup
+
+---
+
+## AGILE GOLD PATH SUMMARY
+
+**Traditional Flow** (10-15 minutes):
 ```
-MILESTONE 2: Database Setup
-- Acceptance Criteria: Database schema created
-- Dependencies: Milestone 1 (Project Setup) must be complete
-
-MILESTONE 3: User Authentication
-- Dependencies: Milestone 2 (Database) must be complete
+Load specs → Answer 10 questions → Generate preview → Review → Answer more questions → Create all → Hope it works
 ```
 
-**Auto-link**:
-- Story 2.1 "blocked by" Story 1.1
-- Story 3.1 "blocked by" Story 2.1
-
-**Also detect implicit dependencies**:
-- If Story 3.2 mentions "uses user table from Story 2.1" → auto-link
-- If API endpoint in Story 4.1 requires auth from Story 3.1 → auto-link
-
----
-
-### Template Customization (Future Enhancement)
-
-Allow users to customize ticket templates:
-
-**${SPEC_PATH}.ticket-templates/story.md**:
-```markdown
----
-platform: linear
----
-
-## {title}
-
-**As a** {user_type}
-**I want to** {action}
-**So that** {benefit}
-
-**Acceptance Criteria**:
-{acceptance_criteria}
-
-**Technical Details**:
-{technical_details}
-
-**Estimate**: {estimate} hours (AI-assisted)
-
-**Tags**: {tags}
+**Agile Gold Path** (2-5 minutes):
+```
+Load specs → Choose Fast Start → Create test ticket (validate) → Create all → Refine in platform
 ```
 
-If template exists, use it. Otherwise, use built-in default.
+**Key Differences**:
+1. **Fast validation**: Test ticket created in < 2 min
+2. **Fail-fast**: Integration validated before bulk creation
+3. **Action-oriented**: User chooses actions, not answering questions
+4. **Progressive**: Minimal metadata first, refine later in platform
+5. **Iterative**: Create → Review → Adjust cycle
+
+---
+
+## COMPARISON
+
+### Before (Question-Heavy)
+```
+Step 1: Load specs
+Step 2: Parse milestones
+Step 3: Generate preview
+Step 4: Wait for approval
+Step 5: Ask platform (1 question)
+Step 6: Ask tags (1 question)
+Step 7: Ask sprint (1 question)
+Step 8: Ask assignment (1 question)
+Step 9: Ask priority (1 question)
+Step 10: Ask team (1 question)
+Step 11: Ask custom fields (1 question)
+Step 12: Create all tickets
+Step 13: Hope integration works
+Step 14: Handle failures retroactively
+
+Total: 7 questions, 10-15 min wait time
+Risk: Integration fails after all questions answered
+```
+
+### After (Action-Oriented, Agile Gold Path)
+```
+Step 1: Load specs
+Step 2: Quick setup (choose action: Fast Start/Full/Export)
+Step 3: [If Fast Start] Create test ticket → validate integration
+Step 4: [If success] Create all tickets with minimal metadata
+Step 5: Refine in platform (more efficient than questions)
+
+Total: 1-2 actions, 2-5 min to first ticket
+Risk: Validated in Step 3 (fail-fast)
+```
 
 ---
 
 ## BEST PRACTICES
 
-### When to Run This Command
+### When to Use Fast Start
 
-**RECOMMENDED**:
-- After PLAN_APPROVAL_GATE (full-app-10a) is approved
-- Before starting Milestone 1 implementation
-- Gives team visibility into all work ahead
+**Use Fast Start if**:
+- ✅ First time using ticket generation
+- ✅ New platform or changed credentials
+- ✅ Want to validate before bulk creation
+- ✅ Unsure if integration works
 
-**ACCEPTABLE**:
-- After each milestone completion (create tickets incrementally)
-- When planning changes (regenerate/update tickets)
+### When to Use Full Create
 
-**NOT RECOMMENDED**:
-- Before BUILD_MAP is complete (nothing to generate from)
+**Use Full Create if**:
+- ✅ Previously validated integration
+- ✅ Same platform, same project
+- ✅ Confident setup is correct
+- ✅ Want fastest path (skip test)
 
----
+### When to Use Export Only
 
-### Ticket Granularity Guidelines
-
-**Good Story Size** (easy to complete in 1 session):
-- 0.5-3 hours AI-assisted
-- 1-3 acceptance criteria
-- Single feature or capability
-
-**Too Large** (split into multiple stories):
-- > 4 hours AI-assisted
-- > 5 acceptance criteria
-- Multiple unrelated features
-
-**Too Small** (combine with other work):
-- < 15 min AI-assisted
-- 1 acceptance criterion
-- Trivial change
-
-**Auto-split large milestones**:
-- If milestone > 4 hours → create 3-6 stories
-- If milestone > 8 hours → create 6-10 stories with subtasks
-
----
-
-### Handling Edge Cases
-
-**IF no acceptance criteria in BUILD_MAP**:
-- Fall back to 01_PRD.md acceptance criteria
-- Generate generic criteria: "Feature works as described", "Tests pass", "Code reviewed"
-
-**IF no time estimate in BUILD_MAP**:
-- Estimate based on complexity from 00_START_HERE.md
-- Simple: 0.5-1 hour, Moderate: 1-3 hours, Complex: 3-6 hours
-
-**IF multiple teams work on same milestone**:
-- Ask user: "Milestone [N] involves [frontend + backend]. Split into team-specific stories?"
-- If yes, create separate stories per team
+**Use Export Only if**:
+- ✅ No MCP/integration available
+- ✅ Want documentation backup
+- ✅ Manual import to ticketing system
+- ✅ Review before creating
 
 ---
 
 ## TROUBLESHOOTING
 
-### MCP Connection Issues
+### Test Ticket Fails
 
-**Error**: "Cannot connect to Linear MCP"
+**If test ticket creation fails**:
+1. Check error message for cause
+2. Verify MCP server running (`mcp list`)
+3. Verify credentials configured
+4. Try different platform
+5. Fall back to Export Only
 
-**Solutions**:
-1. Check MCP server is installed and running
-2. Verify credentials/API keys are configured
-3. Fall back to Export Only mode
-4. Retry with different integration target
+### Partial Failures
 
----
-
-### Ticket Creation Failures
-
-**Error**: "Failed to create Story 3.2 in Linear"
-
-**Solutions**:
-1. Log error with details
-2. Continue with remaining tickets
-3. Save failed tickets to retry list
-4. At end, ask: "Retry failed tickets? (yes/no)"
-5. If yes, retry with exponential backoff
-
----
+**If some tickets create, some fail**:
+1. Review TICKETS_CREATED.md for errors
+2. Retry failed tickets
+3. Create manually in platform
+4. Update TICKETS_CREATED.md with manual IDs
 
 ### Duplicate Tickets
 
-**Error**: "Ticket with this title already exists"
-
-**Solutions**:
+**If tickets already exist**:
 1. Check if TICKETS_CREATED.md exists
-2. Ask user: "Update existing ticket or create new with different title?"
-3. If update, use update flow
-4. If new, append timestamp to title: "[M3.1] User Registration (2026-01-02)"
+2. Offer to update existing tickets
+3. Or create with different titles (append date)
 
 ---
 
 ## NOTES
 
-- **No code changes**: This command only creates tickets, does not modify application code
-- **Idempotent**: Can re-run safely (will ask before creating duplicates)
-- **Platform-agnostic**: Works with Linear, GitHub, Jira, or export-only
-- **Spec-driven**: All content generated from planning specs, no manual input needed (except metadata)
-- **Traceability**: TICKETS_CREATED.md links specs to tickets for future reference
-- **Flexible**: Supports small (1 story/milestone) to large (6+ stories with subtasks) breakdowns
+- **No code changes**: Only creates tickets, no application code modified
+- **Fast validation**: See real ticket in < 2 minutes
+- **Fail-fast**: Integration validated before bulk creation
+- **Iterative**: Can refine tickets in platform after creation
+- **Flexible**: Fast Start, Full Create, or Export Only modes
+- **Action-oriented**: User chooses actions, not endless questions
 
 ---
 
-**NEXT STEP**: After tickets are created, proceed to Milestone 1 implementation using `full-app-11-implement-milestone-n.md`
+**NEXT STEP**: After tickets created, implement milestones with `full-app-11-implement-milestone-n.md`

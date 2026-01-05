@@ -160,7 +160,7 @@
 
 ---
 
-## 5. Generate Tickets from Specs 🎫
+## 5. Generate Tickets from Specs (Agile Gold Path) 🎫
 
 **Use**: `full-app-12-generate-tickets-tdd.md`
 
@@ -173,6 +173,18 @@
 - /specs/BUILD_MAP.md must exist
 - Planning docs complete (PRD, Architecture, etc.)
 
+**Agile Gold Path Workflow**:
+1. **Fast Start** (recommended for first-time)
+   - Create 1 test ticket to validate integration (<2 min)
+   - Fail-fast if credentials/platform issues
+   - Then create all tickets if successful
+2. **Full Create** (skip validation)
+   - Create all tickets immediately
+   - Use if integration already validated
+3. **Export Only** (no ticket creation)
+   - Generate markdown + JSON + CSV files
+   - Manual import or documentation
+
 **What you get**:
 - User stories generated from milestones
 - Pushed to Linear/GitHub/Jira via MCP
@@ -180,6 +192,8 @@
 - Dependency linking (blocks/blocked by)
 - AI-assisted time estimates
 - Traceability (TICKETS_CREATED.md)
+- **Fast validation**: See first ticket in < 2 minutes
+- **Action-oriented**: Choose actions, not endless questions
 
 **Platforms supported**:
 - Linear (via Linear MCP) - RECOMMENDED
@@ -318,7 +332,7 @@ For advanced/niche use cases, see `/specialized/` folder:
 | **feature-doc** | Add feature | Brownfield context (recommended) | FEATURE_<name>.md | 30-60 min |
 | **bug-workflow** | Fix bug | Bug description | Bug analysis + fix plan | 15-45 min |
 | **story-doc** | Small task | Story details | STORY_<id>.md | 10-20 min |
-| **generate-tickets** | Create issues | BUILD_MAP.md | Tickets in Linear/GitHub/Jira | 15-30 min |
+| **generate-tickets** | Create issues (agile gold path) | BUILD_MAP.md | Tickets in Linear/GitHub/Jira | 2-5 min (fast start) |
 | **learnings-capture** | Document insights | During/after work | LEARNINGS.md | 10-20 min |
 | **deployment-tdd** | Design deployment (TDD, ad-hoc) | None | DEPLOYMENT_TDD.md | 30-60 min |
 | **monitoring-tdd** | Design monitoring (TDD, ad-hoc) | None | MONITORING_TDD.md | 30-60 min |
@@ -415,9 +429,11 @@ graph TD
 ### Scenario D: "I just finished planning and want tickets in Linear"
 1. Ensure `BUILD_MAP.md` exists in `/specs/`
 2. Run `full-app-12-generate-tickets-tdd.md`
-3. Choose Linear integration
-4. Provide metadata (tags, sprint, assignee)
-5. Tickets created with traceability in `TICKETS_CREATED.md`
+3. Choose "Fast Start" (recommended for first-time)
+4. Create test ticket to validate Linear integration (<2 min)
+5. If successful, create all tickets with minimal metadata
+6. Refine in Linear (priorities, assignments, etc.)
+7. Tickets created with traceability in `TICKETS_CREATED.md`
 
 ### Scenario E: "I'm adding a small 'Delete' button to existing UI"
 1. **Option A**: If trivial (< 15 min), just implement directly
