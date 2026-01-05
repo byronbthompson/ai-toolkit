@@ -1,6 +1,27 @@
 BROWNFIELD CONTEXT DISCOVERY
 
-Use this command when adding features to EXISTING codebases (not greenfield projects).
+**PURPOSE**: This is a **FOUNDATIONAL PREREQUISITE** for ALL work in existing codebases, not just features.
+
+**WHEN TO USE**:
+- First time working in an existing codebase
+- Before adding features (feature-doc-builder-tdd.md)
+- Before fixing bugs (bug-workflow-builder-tdd.md)
+- Before implementing stories (story-doc-builder-tdd.md)
+- Anytime you need to understand existing patterns and constraints
+
+**WHY THIS MATTERS**:
+- Prevents breaking existing functionality
+- Ensures consistency with existing code patterns
+- Identifies high-risk areas to avoid
+- Documents quality baselines (coverage, linter)
+- Saves time by discovering reusable utilities
+- Reduces rework by understanding constraints upfront
+
+**OUTPUT**: Creates `/specs/00_BROWNFIELD_CONTEXT.md` that is referenced by ALL other workflows.
+
+**TIME INVESTMENT**: 20-40 minutes upfront saves hours of rework and debugging.
+
+---
 
 CRITICAL: Before planning or implementing ANY changes to existing code, complete this discovery process.
 
@@ -310,3 +331,49 @@ IMPORTANT REMINDERS FOR BROWNFIELD:
 4. Existing tests passing is a hard requirement (no regressions)
 5. Document WHY you deviated from existing patterns (if absolutely necessary)
 6. Integration spike (Milestone 2) is highly recommended to validate approach
+
+---
+
+## NEXT STEPS: Using Brownfield Context
+
+**YOU'VE COMPLETED BROWNFIELD CONTEXT DISCOVERY!**
+
+The `/specs/00_BROWNFIELD_CONTEXT.md` file you just created will now be referenced by ALL other workflows.
+
+**What to do next?** Choose based on your work type:
+
+1. **Adding a Feature?**
+   - Run: `feature-doc-builder-tdd.md`
+   - It will automatically check for and reference your brownfield context
+   - You'll plan feature following existing patterns
+
+2. **Fixing a Bug?**
+   - Run: `bug-workflow-builder-tdd.md`
+   - It will automatically check for and reference your brownfield context
+   - You'll fix bug following existing error handling patterns
+
+3. **Implementing a Story?**
+   - Run: `story-doc-builder-tdd.md`
+   - It will automatically check for and reference your brownfield context
+   - You'll implement story following existing code style
+
+**How workflows use brownfield context:**
+- Phase 0 of each workflow checks if `/specs/00_BROWNFIELD_CONTEXT.md` exists
+- If it exists, workflow references it for:
+  - Code patterns to follow
+  - High-risk areas to avoid
+  - Test patterns to match
+  - Quality baselines to maintain
+- If it's missing, workflow will recommend running brownfield discovery
+
+**Keeping brownfield context updated:**
+- Update `/specs/00_BROWNFIELD_CONTEXT.md` if you discover new patterns during work
+- Especially update after learning about:
+  - New architectural patterns
+  - Additional high-risk areas
+  - New testing approaches
+  - Changed quality baselines
+
+**Return to workflow selector:**
+- See `00-WORKFLOW-SELECTOR.md` to choose your next workflow
+- Your brownfield context is now ready to support all your work!

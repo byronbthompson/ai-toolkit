@@ -1,10 +1,63 @@
 Create /specs/FEATURE_<name>.md with:
 
-CRITICAL - Existing Codebase Analysis (if brownfield):
+---
 
-If adding feature to existing codebase:
-1. Reference 00_BROWNFIELD_CONTEXT.md for existing patterns
-2. Analyze related existing code:
+## PHASE 0: PROJECT CONTEXT CHECK
+
+**CRITICAL**: Determine if this is existing codebase (brownfield) or new project (greenfield).
+
+Ask user:
+1. "Is this work for an existing codebase (brownfield) or a new project (greenfield)?"
+
+**IF BROWNFIELD** (existing codebase):
+2. "Does `/specs/00_BROWNFIELD_CONTEXT.md` exist in your project?"
+   - **IF NO**:
+     - "⚠️ RECOMMENDATION: Run `brownfield-context-discovery-tdd.md` first to understand existing patterns, tech stack, and constraints."
+     - "This takes ~20-40 minutes but prevents costly mistakes and rework."
+     - "Benefits:"
+     - "  - Discover existing patterns you MUST follow"
+     - "  - Identify high-risk areas to avoid"
+     - "  - Document quality baselines (coverage, linter)"
+     - "  - Find reusable utilities and components"
+     - "Proceed without brownfield context? [Yes/No]"
+       - **IF NO**: Exit and prompt user to run `brownfield-context-discovery-tdd.md`
+       - **IF YES**:
+         - Set `BROWNFIELD_MODE=true`
+         - Set `BROWNFIELD_CONTEXT=missing`
+         - ⚠️ Warning: "Proceeding without brownfield context. Risk of pattern inconsistency and breaking changes."
+   - **IF YES**:
+     - Read `/specs/00_BROWNFIELD_CONTEXT.md`
+     - Set `BROWNFIELD_MODE=true`
+     - Set `BROWNFIELD_CONTEXT=available`
+     - Reference it throughout workflow
+
+**IF GREENFIELD** (new project):
+- Set `BROWNFIELD_MODE=false`
+- Note: "Greenfield project - no existing patterns to follow"
+- Python preferred when appropriate (data work, apis, scripting)
+
+3. Record decision in FEATURE spec being created:
+```markdown
+## Project Context
+- Type: [Brownfield/Greenfield]
+- Brownfield Context: [Available at /specs/00_BROWNFIELD_CONTEXT.md / Missing - proceeded anyway / N/A]
+```
+
+---
+
+## EXISTING CODEBASE ANALYSIS (if BROWNFIELD_MODE=true)
+
+**IF BROWNFIELD_CONTEXT=available** (recommended path):
+1. Reference `/specs/00_BROWNFIELD_CONTEXT.md` for:
+   - Existing architectural patterns
+   - Code style and naming conventions
+   - Testing patterns and coverage baseline
+   - High-risk areas to avoid
+   - Technology stack and versions
+
+**IF BROWNFIELD_CONTEXT=missing** (user proceeded without context):
+⚠️ Perform minimal brownfield analysis inline:
+1. Analyze related existing code:
    - Use Task tool (Explore agent) to find similar features:
      - "How are similar features currently implemented?"
      - "What files would I need to modify to add this feature?"
@@ -14,19 +67,31 @@ If adding feature to existing codebase:
      - Similar database models (if adding data)
      - Similar UI components (if adding UI)
      - Similar business logic (if adding logic)
-3. Document integration approach:
+2. Document integration approach:
    - Files to create (new files)
    - Files to modify (existing files that need changes)
    - Existing code to reuse (DRY principle)
    - Patterns to follow (from existing codebase)
-4. Identify risks:
-   - Will this break existing functionality? (check high-risk areas from brownfield context)
+3. Identify risks:
+   - Will this break existing functionality?
    - Are there backwards compatibility concerns?
    - Do existing tests cover areas being modified?
-5. Ask user if unclear:
+4. Ask user if unclear:
    - "Should this follow the pattern from [existing-file.ext] or use a different approach?"
    - "I found two different patterns for [X]. Which should I follow?"
-   - "This requires modifying [high-risk-area]. Proceed with caution or alternative approach?"
+   - "This requires modifying [critical-file]. Proceed with caution or alternative approach?"
+
+**REGRESSION PROTECTION** (all brownfield work):
+- [ ] Note current test coverage baseline (must not decrease)
+- [ ] Identify existing tests affected by changes
+- [ ] Plan to run ALL existing tests after implementation
+- [ ] Check if linter baseline will be affected
+
+---
+
+## FEATURE SPECIFICATION
+
+Build the feature specification document:
 
 - Problem and goal
 - Scope/non-scope

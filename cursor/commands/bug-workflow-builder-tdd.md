@@ -1,6 +1,50 @@
 Create /specs/BUG_<id>.md with:
 
-TICKET IMPORT (if bug from external tracker):
+---
+
+## PHASE 0: PROJECT CONTEXT CHECK
+
+**CRITICAL**: Determine if this is existing codebase (brownfield) or new project (greenfield).
+
+Ask user:
+1. "Is this bug in an existing codebase (brownfield) or new project (greenfield)?"
+
+**IF BROWNFIELD** (existing codebase - most common for bugs):
+2. "Does `/specs/00_BROWNFIELD_CONTEXT.md` exist in your project?"
+   - **IF NO**:
+     - "⚠️ RECOMMENDATION: Run `brownfield-context-discovery-tdd.md` first."
+     - "For bug fixes, brownfield context helps you:"
+     - "  - Understand existing error handling patterns to follow"
+     - "  - Identify if bug exists in multiple places (similar code)"
+     - "  - Know which tests must keep passing (regression protection)"
+     - "  - Find high-risk areas that bug fix might affect"
+     - "This takes ~20-40 minutes but improves fix quality and prevents regressions."
+     - "Proceed without brownfield context? [Yes/No]"
+       - **IF NO**: Exit and prompt user to run `brownfield-context-discovery-tdd.md`
+       - **IF YES**:
+         - Set `BROWNFIELD_MODE=true`
+         - Set `BROWNFIELD_CONTEXT=missing`
+         - ⚠️ Warning: "Proceeding without brownfield context. Risk of inconsistent fix and regressions."
+   - **IF YES**:
+     - Read `/specs/00_BROWNFIELD_CONTEXT.md`
+     - Set `BROWNFIELD_MODE=true`
+     - Set `BROWNFIELD_CONTEXT=available`
+     - Note existing error handling patterns, test patterns, high-risk areas
+
+**IF GREENFIELD** (new project):
+- Set `BROWNFIELD_MODE=false`
+- Note: "Greenfield project bug fix"
+
+3. Record decision in BUG spec being created:
+```markdown
+## Project Context
+- Type: [Brownfield/Greenfield]
+- Brownfield Context: [Available at /specs/00_BROWNFIELD_CONTEXT.md / Missing - proceeded anyway / N/A]
+```
+
+---
+
+## TICKET IMPORT (if bug from external tracker):
 
 If bug ticket from external tracker (JIRA, Linear, GitHub Issues, etc.):
 - Ticket ID: [e.g., JIRA-1234, #567, LIN-89]
@@ -490,12 +534,29 @@ VALIDATION CHECKLIST:
   - Update README if setup issue
   - Add comment in code if tricky logic
 
-BROWNFIELD CONSIDERATIONS (if existing codebase):
-- [ ] All existing tests still pass (critical for bug fixes)
-- [ ] Bug fix follows existing error handling patterns
-- [ ] Fix doesn't introduce new dependencies
+BROWNFIELD CONSIDERATIONS (if BROWNFIELD_MODE=true):
+
+**IF BROWNFIELD_CONTEXT=available**:
+- [ ] Reference `/specs/00_BROWNFIELD_CONTEXT.md` for:
+  - Existing error handling patterns (follow them in fix)
+  - High-risk areas (is bug fix touching any?)
+  - Testing patterns (match existing test structure)
+  - Quality baselines (coverage %, linter violations)
+- [ ] All existing tests still pass (CRITICAL - run full test suite)
+- [ ] Bug fix follows existing error handling patterns (from brownfield context)
+- [ ] Fix doesn't introduce new dependencies (check against existing stack)
 - [ ] Fix doesn't break backwards compatibility (unless bug is security issue)
 - [ ] Check if bug exists in multiple places (search for similar code patterns)
+- [ ] Verify fix doesn't increase linter violations (maintain baseline)
+
+**IF BROWNFIELD_CONTEXT=missing** (user proceeded without context):
+⚠️ Perform essential brownfield checks:
+- [ ] Search for similar bugs in git history: `git log --grep="<bug-keyword>"`
+- [ ] Find similar error handling code: Use Grep for error handling patterns
+- [ ] Identify test pattern: Read 2-3 existing test files to match structure
+- [ ] Run ALL existing tests before and after fix (establish baseline)
+- [ ] Search for duplicate code: Use Grep to find similar functions/methods
+- [ ] Check if fix affects high-traffic code paths (ask user if unsure)
 
 PHASE 5: ROOT CAUSE DOCUMENTATION AND "FIX IT ONCE AND FOR ALL"
 

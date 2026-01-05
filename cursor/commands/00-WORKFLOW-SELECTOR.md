@@ -11,12 +11,11 @@
 ```
 ┌─ New complete application? ────────────→ full-app-00-start-here-tdd.md
 │
-├─ Add feature to existing app? ─────────→ brownfield-context-discovery-tdd.md
-│                                           then feature-doc-builder-tdd.md
-│
-├─ Fix a bug? ───────────────────────────→ bug-workflow-builder-tdd.md
-│
-├─ Implement a user story/task? ─────────→ story-doc-builder-tdd.md
+├─ Working in existing codebase? ───────→ First time? Run brownfield-context-discovery-tdd.md
+│                                         Then use workflows below:
+│   ├─ Add feature? ──────────────────→ feature-doc-builder-tdd.md
+│   ├─ Fix bug? ──────────────────────→ bug-workflow-builder-tdd.md
+│   └─ Implement story? ──────────────→ story-doc-builder-tdd.md
 │
 ├─ Generate tickets from specs? ─────────→ full-app-12-generate-tickets-tdd.md
 │
@@ -58,39 +57,53 @@
 
 ---
 
-## 2. Add Feature to Existing Application (Brownfield) 🔧
+## 2. Work with Existing Codebase (Brownfield) 🔧
 
-**Use**: `brownfield-context-discovery-tdd.md` → `feature-doc-builder-tdd.md`
+**IMPORTANT**: Brownfield context discovery is a **foundational prerequisite** for ALL work in existing codebases, not just features.
 
-**When to use**:
-- Existing codebase
-- Adding new capability or feature
-- Need to understand existing patterns first
+### When You're Working in an Existing Codebase
 
-**Examples**:
-- "Add password reset to existing auth service"
-- "Add export functionality to existing dashboard"
-- "Implement email notifications in existing app"
+**First Time in This Codebase?**
+- Run `brownfield-context-discovery-tdd.md` FIRST (20-40 min)
+- This discovers:
+  - Existing patterns, architecture, tech stack
+  - High-risk areas to avoid
+  - Testing patterns and quality baselines
+  - Integration points and dependencies
+- Creates `/specs/00_BROWNFIELD_CONTEXT.md`
+- **This context is referenced by ALL other workflows** (features, bugs, stories)
 
-**Workflow**:
-1. **First time in codebase?** Run `brownfield-context-discovery-tdd.md`
-   - Discovers existing patterns, architecture, tech stack
-   - Identifies high-risk areas
-   - Documents existing conventions
-   - Creates 00_BROWNFIELD_CONTEXT.md
+**Already Have Brownfield Context?**
+- Proceed directly to your workflow (feature, bug, story)
+- Each workflow will reference your brownfield context
+- Update context if you discover new patterns
 
-2. **Then** run `feature-doc-builder-tdd.md`
-   - Plans feature following existing patterns
-   - Identifies files to create/modify
-   - Ensures consistency with codebase
+### Then Choose Your Work Type:
 
-**What you get**:
-- Feature specification document (FEATURE_<name>.md)
-- Integration approach (what to create vs modify)
-- Acceptance criteria and test requirements
-- Reference to existing patterns to follow
+**Adding a Feature?** → `feature-doc-builder-tdd.md`
+- Plans feature following existing patterns
+- Identifies files to create/modify
+- Ensures consistency with codebase
+- References 00_BROWNFIELD_CONTEXT.md
 
-**Next step**: Run `brownfield-context-discovery-tdd.md` (first time) or `feature-doc-builder-tdd.md` (already have context)
+**Fixing a Bug?** → `bug-workflow-builder-tdd.md`
+- Analyzes bug in context of existing code
+- Uses existing error handling patterns
+- Ensures no regressions in existing tests
+- References 00_BROWNFIELD_CONTEXT.md
+
+**Implementing a Story?** → `story-doc-builder-tdd.md`
+- Small tasks in existing codebase
+- Follows existing conventions
+- Identifies touchpoints in existing code
+- References 00_BROWNFIELD_CONTEXT.md
+
+**Why This Matters**:
+- Prevents breaking existing functionality
+- Ensures consistency with codebase patterns
+- Identifies high-risk areas before making changes
+- Documents quality baselines (coverage, linter)
+- Saves time by reusing existing utilities
 
 ---
 
@@ -320,15 +333,17 @@ graph TD
     Start[What do you want to do?] --> Q1{New app or<br/>existing codebase?}
 
     Q1 -->|New app<br/>from scratch| FullApp[full-app-00-start-here-tdd.md]
-    Q1 -->|Existing<br/>codebase| Q2{What type<br/>of work?}
+    Q1 -->|Existing<br/>codebase| Q2{First time in<br/>this codebase?}
 
-    Q2 -->|New feature| Q3{First time in<br/>this codebase?}
-    Q2 -->|Bug fix| Bug[bug-workflow-builder-tdd.md]
-    Q2 -->|Small story/task| Story[story-doc-builder-tdd.md]
+    Q2 -->|Yes, need context| Brownfield[brownfield-context-discovery-tdd.md]
+    Q2 -->|No, have context| Q3{What type<br/>of work?}
 
-    Q3 -->|Yes| Brownfield[brownfield-context-discovery-tdd.md]
-    Q3 -->|No, have context| Feature[feature-doc-builder-tdd.md]
-    Brownfield --> Feature
+    Brownfield --> BrownfieldDone[00_BROWNFIELD_CONTEXT.md created]
+    BrownfieldDone --> Q3
+
+    Q3 -->|New feature| Feature[feature-doc-builder-tdd.md<br/>references brownfield context]
+    Q3 -->|Bug fix| Bug[bug-workflow-builder-tdd.md<br/>references brownfield context]
+    Q3 -->|Small story/task| Story[story-doc-builder-tdd.md<br/>references brownfield context]
 
     FullApp --> Planning[Complete Planning<br/>Workflow]
     Planning --> BuildMap[BUILD_MAP created]
@@ -361,6 +376,7 @@ graph TD
     style Story fill:#f3e5f5
     style Tickets fill:#e8f5e9
     style Brownfield fill:#fff9c4
+    style BrownfieldDone fill:#fff9c4
     style AdHoc fill:#e0f2f1
     style DeployTDD fill:#e0f2f1
     style MonitorTDD fill:#e0f2f1
@@ -382,16 +398,19 @@ graph TD
 8. **Ad-hoc**: Run `full-app-README-generator-tdd.md` for user docs
 
 ### Scenario B: "I need to add login to my existing React app"
-1. **First time?** Run `brownfield-context-discovery-tdd.md`
-2. Run `feature-doc-builder-tdd.md` for login feature
-3. Implement following existing patterns
-4. Capture learnings with `learnings-capture-tdd.md`
+1. **First time in this codebase?** Run `brownfield-context-discovery-tdd.md` (creates 00_BROWNFIELD_CONTEXT.md)
+2. Run `feature-doc-builder-tdd.md` for login feature (references brownfield context)
+3. Implement following existing patterns discovered in Phase 0
+4. Run ALL existing tests to ensure no regressions
+5. Capture learnings with `learnings-capture-tdd.md`
 
 ### Scenario C: "I have a bug where users can't save their profile"
-1. Run `bug-workflow-builder-tdd.md`
+1. Run `bug-workflow-builder-tdd.md` (includes Phase 0: brownfield context check)
 2. Follow symptom → root cause → fix workflow
-3. Implement fix with regression tests
-4. Capture learnings about root cause
+3. Write regression test FIRST (TDD)
+4. Implement fix following existing error handling patterns
+5. Run ALL existing tests to ensure no regressions
+6. Capture learnings about root cause
 
 ### Scenario D: "I just finished planning and want tickets in Linear"
 1. Ensure `BUILD_MAP.md` exists in `/specs/`
@@ -410,7 +429,11 @@ graph TD
 
 ### Greenfield vs Brownfield
 - **Greenfield**: New project from scratch → Use `full-app-00-start-here-tdd.md`
-- **Brownfield**: Existing codebase → Use `brownfield-context-discovery-tdd.md` first
+- **Brownfield**: Existing codebase → **ALWAYS** check for brownfield context first
+  - First time in codebase: Run `brownfield-context-discovery-tdd.md`
+  - Creates `/specs/00_BROWNFIELD_CONTEXT.md` (referenced by ALL workflows)
+  - All workflows (feature, bug, story) include Phase 0 brownfield check
+  - Prevents breaking existing code, ensures pattern consistency
 
 ### SPEC_PATH (Nested vs Flat)
 - **Nested**: `/specs/TICKET-ID/` - For parallel team work
